@@ -1,5 +1,5 @@
 # Blender MTL File: 'scene.blend'
-# Material Count: 4
+# Material Count: 9
 
 newmtl Material.002
 Ns 96.078431
@@ -44,3 +44,56 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd textures/woodFloor.jpg
+
+newmtl leaf
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1 1 1
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/leafLit.jpg
+
+newmtl vase
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.7 0.35 0.3
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/plantPot.jpg
+
+newmtl black
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl glass
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.15 0.2 0.2
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.500000
+illum 2
+
+newmtl table
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.64 0.64 0.64
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/table.jpg
