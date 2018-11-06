@@ -1,0 +1,35 @@
+# Blender MTL File: 'scene.blend'
+# Material Count: 3
+
+newmtl audience
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1 1 1
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/audienceCarpet.jpg
+
+newmtl audienceRail
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.1 0.1 0.1
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/audienceRail.jpg
+
+newmtl controlExt
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 1 1 1
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/control1.jpg
