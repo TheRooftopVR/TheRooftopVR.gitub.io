@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Rooftop</title>
+	<script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
+  <script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
+</head>
+<body>
+	<script>
+	var xhr = new XMLHttpRequest();
+	var url = findGetParameter('a');
+	xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+			document.body.innerHTML = this.responseText;
+
+			var script = document.body.children[1].innerHTML
+			var newScript = document.createElement('script')
+			newScript.innerHTML = script
+			document.head.appendChild(newScript)
+    }
+	};
+	xhr.open("GET", url, true);
+	xhr.send();
+
+	function findGetParameter(parameterName) {
+		var result = null,
+		tmp = [];
+		location.search
+		.substr(1)
+				.split("&")
+				.forEach(function (item) {
+				tmp = item.split("=");
+				if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+		});
+		return result;
+	}
+	</script>
+</body>
+</html>
