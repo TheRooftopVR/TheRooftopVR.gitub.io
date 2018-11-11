@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Person</title>
+	<script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
+	<script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
+	<style>
+		
+	</style>
+</head>
+<body style='background-color: white'>
+		<div>
+      <h2>Add Person</h2>
+      <p id='nameText'>Name: </p>
+      <p id='idText'>Id: </p>
+			<p>Role: <select id='role'>
+				<option value="guest">Guest</option>
+				<option value="host">Host</option>
+				<option value="performer">Performer</option>
+				<option value="producer">Producer</option>
+			</select></p>
+			<p>Spawn: <select id='spawn'>
+				<option value="audience">Audience</option>
+				<option value="backstage">Backstage</option>
+				<option value="control">Control Room</option>
+				<option value="vip">VIP</option>
+			</select></p>
+			<p>Extras: <input id='extras'></p>
+      <input id='btnCancel' type='button' value='Cancel'> <input id='btnAdd' type='button' value='Add'>
+    </div>
+<script>
+	spawn.value = 'vip';
+	role.addEventListener('change', function(){
+		switch (role.value) {
+			case 'guest':
+				spawn.value = 'vip';
+				break;
+			case 'host':
+				spawn.value = 'backstage';
+				break;
+			case 'performer':
+				spawn.value = 'backstage';
+				break;
+			case 'producer':
+				spawn.value = 'control';
+				break;
+		}
+	});
+	altspace.utilities.sync.connect({baseRefUrl: "https://altvr-apps.firebaseio.com/",authorId: "BenG",appId: "TheRooftop",instance: "rooftop"}).then(function(sync){
+		var userData;
+		sync.app.child('tempUser').on('value', function(data){
+			if (data.val() != null) {
+				userData = data.val();
+				nameText.innerHTML += data.val().name;
+				idText.innerHTML += data.val().id;
+			} else if (userData != null) {
+				location.replace('https://altspacevr.github.io/homepages/main-links.html');
+			}
+		});
+
+		btnAdd.addEventListener('mouseup', function(){
+      var obj = {name: userData.name, id: userData.id, role: role.value, spawn: spawn.value, extras: extras.value};
+      console.log(obj);
+		 	sync.app.child('people').child(userData.name).set(obj);
+      sync.app.child('tempUser').set(null);
+		});
+
+		btnCancel.addEventListener('mouseup', function(){
+       sync.app.child('tempUser').set(null);
+		});
+	});
+</script>
+</body>
+</html>
