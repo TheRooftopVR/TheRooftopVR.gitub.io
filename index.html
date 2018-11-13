@@ -1,39 +1,2060 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>The Rooftop</title>
+	<title>TheRooftop</title>
 	<script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
   <script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
 </head>
 <body>
-	<script>
-	var xhr = new XMLHttpRequest();
-	var url = findGetParameter('a');
-	xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-			document.body.innerHTML = this.responseText;
+  <a-scene altspace='fullspace: true' sync-system='author: BenG; app: TheRooftop; refUrl: https://altvr-apps.firebaseio.com/; instance: rooftop'>
+    <a-entity position='0 0 0'>
+      <a-entity position='0 -17.5 0' n-mesh-collider='type: environment; convex: false'>
+        <a-plane position='0 0 -2.5' scale='5 5 5' rotation='0 0 0' color='black'></a-plane>
+        <a-plane position='0 0 2.5' scale='5 5 5' rotation='0 180 0' color='black'></a-plane>
+        <a-plane position='-2.5 0 0' scale='5 5 5' rotation='0 90 0' color='black'></a-plane>
+        <a-plane position='2.5 0 0' scale='5 5 5' rotation='0 -90 0' color='black'></a-plane>
+        <a-plane position='0 2.5 0' scale='5 5 5' rotation='90 0 0' color='black'></a-plane>
+        <a-plane position='0 -2.5 0' scale='5 5 5' rotation='-90 0 0' color='black'></a-plane>
+      </a-entity>
+      <a-box id='respawner' position='0 -17.5 0' scale='5 5 5' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
 
-			var script = document.body.children[1].innerHTML
-			var newScript = document.createElement('script')
-			newScript.innerHTML = script
-			document.head.appendChild(newScript)
+      <a-entity id='model' n-mesh-collider='type: environment; convex: false'></a-entity>
+
+      <a-mixin id='tie' position='0 .24 -.15' rotation='0 180 0' scale='.21 .21 .21' obj-model='obj: models/tie.obj; mtl: models/tie.mtl' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
+
+      <a-box id='podiumMic' position='-5.462 1.533 3.112' scale='.035 .035 .035' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+      
+      <a-entity id='logoScreen' position='0 2.9 -11' scale='2.8 2.83 1'>
+        <a-plane position='0 0 0' scale='1.7777 1 1' color='#111111'></a-plane>
+        <a-plane position='0 0 .005' scale='.95 .95 1' src='models/textures/logo.jpg'></a-plane>
+      </a-entity>
+
+      <a-entity position='-8.3 2.9 -8.58' scale='2.52 2.53 1' rotation='0 34 0'>
+          <a-entity id='logoScreen2' position='0 0 -.01'>
+            <a-plane position='0 0 0' scale='1.7777 1 1' color='#111111'></a-plane>
+            <a-plane position='0 0 .005' scale='.95 .95 1' src='models/textures/logo.jpg'></a-plane>
+          </a-entity>
+        </a-entity>
+
+      <a-entity position='8.3 2.9 -8.58' scale='2.52 2.53 1' rotation='0 -34 0'>
+        <a-entity id='logoScreen3' position='0 0 -.01'>
+          <a-plane position='0 0 0' scale='1.7777 1 1' color='#111111'></a-plane>
+          <a-plane position='0 0 .005' scale='.95 .95 1' src='models/textures/logo.jpg'></a-plane>
+        </a-entity>
+      </a-entity>
+
+      <a-entity position='7 .23 -6.2' rotation='0 -30 0'>
+        <a-entity id='mic' position='-.03 -1.2 1.265' rotation='0 0 0'>
+          <a-cylinder radius='.01' height='2' color='black' segments-height='1'></a-cylinder>
+          <a-entity id='mic2' position='0.02 .98 0' rotation='0 0 0'>
+            <a-cylinder position='.02 0.05 0' radius='.02' height='0.2' color='#000' segments-height='1'></a-cylinder>
+            <a-cylinder position='0 0 0' rotation='0 0 90' radius='.009' height='0.03' color='#222' segments-height='1'></a-cylinder>
+            <a-sphere id='performerMic' position='.02 0.15 0' radius='.03' color='#222'></a-sphere>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity position='0 2 4.6' rotation='0 2.5 0' scale='11 1 11' altspace-cursor-collider='enabled: false'>
+        <!-- <a-cylinder position='0 -2 0' open-ended='true' side='double' opacity='0.4' altspace-cursor-collider='enabled: false'></a-cylinder> -->
+        <a-entity rotation='0 45 0'><a-plane position='0 0 -.998' rotation='0 0 0' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: 0 0'></a-plane></a-entity>
+        <a-entity id='leftCur1' rotation='0 45 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: 0 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur2' rotation='0 40 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .25 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur3' rotation='0 35 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .5 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur4' rotation='0 30 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .75 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur5' rotation='0 25 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: 0 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur6' rotation='0 20 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .25 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur7' rotation='0 15 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .5 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur8' rotation='0 10 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .75 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur9' rotation='0 5 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtainLogo.jpg; repeat: .25 1; offset: 0 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='leftCur10' rotation='0 0 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtainLogo.jpg; repeat: .25 1; offset: .25 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+
+        <a-entity id='rightCur1' rotation='0 -50 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .75 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur2' rotation='0 -45 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .5 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur3' rotation='0 -40 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .25 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur4' rotation='0 -35 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: 0 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur5' rotation='0 -30 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .75 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur6' rotation='0 -25 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .5 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur7' rotation='0 -20 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .25 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur8' rotation='0 -15 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: 0 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur9' rotation='0 -10 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtainLogo.jpg; repeat: .25 1; offset: .75 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity id='rightCur10' rotation='0 -5 0'><a-plane position='0 0 -1' scale='.0875 4 1' material='src: models/textures/curtainLogo.jpg; repeat: .25 1; offset: .5 0'></a-plane><a-plane position='0 0 -1' rotation='0 180 0' scale='.0875 4 1' opacity='.6' color='black'></a-plane></a-entity>
+        <a-entity rotation='0 -50 0'><a-plane position='0 0 -.998' rotation='0 0 0' scale='.0875 4 1' material='src: models/textures/curtain.jpg; repeat: .25 1; offset: .75 0'></a-plane></a-entity>
+      </a-entity>
+      
+      <a-entity id='light1' position='-4.5 5.75 -1.5' rotation='180 0 0'>
+        <a-cylinder rotation='-90 0 0' scale='.15 .4 .15' color='black' segments-height='1' altspace-cursor-collider='enabled: false'></a-cylinder>
+        <a-cone id='light1Cone' position='0 0 5' rotation='90 0 0' scale='.0001 .0001 .0001' open-ended='true' height='10' radius-top='.8' radius-bottom='.1' segments-height='1' opacity='.05' color='#ffc' src='https://bengarfield.github.io/AltVR/AZHouse/2/transparent_gradient.png' altspace-cursor-collider='enabled: false'></a-cone>
+        <a-circle id='light1Light' position='0 0 .201' radius='.1' color='#111' altspace-cursor-collider='enabled: false'></a-circle>
+      </a-entity>
+      <a-entity id='light1Ghost' position='-4.5 5.75 -1.5'></a-entity>
+      
+      <a-entity id='light2' position='-1.5 5.75 -1.5' rotation='180 0 0'>
+        <a-cylinder rotation='-90 0 0' scale='.15 .4 .15' color='black' segments-height='1' altspace-cursor-collider='enabled: false'></a-cylinder>
+        <a-cone id='light2Cone' position='0 0 5' rotation='90 0 0' scale='.0001 .0001 .0001' open-ended='true' height='10' radius-top='.8' radius-bottom='.1' segments-height='1' opacity='.05' color='#ffc' src='https://bengarfield.github.io/AltVR/AZHouse/2/transparent_gradient.png' altspace-cursor-collider='enabled: false'></a-cone>
+        <a-circle id='light2Light' position='0 0 .201' radius='.1' color='#111' altspace-cursor-collider='enabled: false'></a-circle>
+      </a-entity>
+      <a-entity id='light2Ghost' position='-1.5 5.75 -1.5'></a-entity>
+
+      <a-entity id='light3' position='1.5 5.75 -1.5' rotation='180 0 0'>
+        <a-cylinder rotation='-90 0 0' scale='.15 .4 .15' color='black' segments-height='1' altspace-cursor-collider='enabled: false'></a-cylinder>
+        <a-cone id='light3Cone' position='0 0 5' rotation='90 0 0' scale='.0001 .0001 .0001' open-ended='true' height='10' radius-top='.8' radius-bottom='.1' segments-height='1' opacity='.05' color='#ffc' src='https://bengarfield.github.io/AltVR/AZHouse/2/transparent_gradient.png' altspace-cursor-collider='enabled: false'></a-cone>
+        <a-circle id='light3Light' position='0 0 .201' radius='.1' color='#111' altspace-cursor-collider='enabled: false'></a-circle>
+      </a-entity>
+      <a-entity id='light3Ghost' position='1.5 5.75 -1.5'></a-entity>
+
+      <a-entity id='light4' position='4.5 5.75 -1.5' rotation='180 0 0'>
+        <a-cylinder rotation='-90 0 0' scale='.15 .4 .15' color='black' segments-height='1' altspace-cursor-collider='enabled: false'></a-cylinder>
+        <a-cone id='light4Cone' position='0 0 5' rotation='90 0 0' scale='.0001 .0001 .0001' open-ended='true' height='10' radius-top='.8' radius-bottom='.1' segments-height='1' opacity='.05' color='#ffc' src='https://bengarfield.github.io/AltVR/AZHouse/2/transparent_gradient.png' altspace-cursor-collider='enabled: false'></a-cone>
+        <a-circle id='light4Light' position='0 0 .201' radius='.1' color='#111' altspace-cursor-collider='enabled: false'></a-circle>
+      </a-entity>
+      <a-entity id='light4Ghost' position='4.5 5.75 -1.5'></a-entity>
+
+      <a-entity position='0 2.5 7.5' rotation='-30 0 0'>
+        <a-entity position='.8 0 0'>
+          <a-box scale='.4 .6 .05' color='#111'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Curtains'></a-entity>
+          <a-box id='curtainsLeft' position='-.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Left' n-box-collider='type:hologram'></a-box>
+          <a-box id='curtainsCenter' position='0 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Center' n-box-collider='type:hologram'></a-box>
+          <a-box id='curtainsRight' position='.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Right' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='openButton' position='-.05 0 .026' scale='.05 .05 .02' color='green' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Open' n-box-collider='type:hologram'></a-box>
+          <a-box id='closeButton' position='.05 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Close' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='screenToggle' position='-.05 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Screen' n-box-collider='type:hologram'></a-box>
+          <a-box id='micToggle' position='.05 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Mic' n-box-collider='type:hologram'></a-box>          
+        </a-entity>
+
+        <a-entity id='lightControlPanel' position='0 0 0'>
+          <a-box position='0 0 0' scale='1 .6 .05' color='#111'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Lights'></a-entity>
+          <a-box id='addButton' position='.47 .27 .026' scale='.03 .03 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Add' n-box-collider='type:hologram'></a-box>
+          <a-box id='resetLightsButton' position='.4 .17 .026' scale='.03 .03 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Reset' n-box-collider='type:hologram'></a-box>
+
+          <a-cylinder id='light1Selector' position='-.3 .17 .026' scale='.04 .02 .04' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light2Selector' position='-.1 .17 .026' scale='.04 .02 .04' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light3Selector' position='.1 .17 .026' scale='.04 .02 .04' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light4Selector' position='.3 .17 .026' scale='.04 .02 .04' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+
+          <a-cylinder id='light1PowerButton' position='-.3 .1 .026' scale='.015 .02 .015' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light2PowerButton' position='-.1 .1 .026' scale='.015 .02 .015' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light3PowerButton' position='.1 .1 .026' scale='.015 .02 .015' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+          <a-cylinder id='light4PowerButton' position='.3 .1 .026' scale='.015 .02 .015' rotation='90 0 0' color='red' segments-height='1'></a-cylinder>
+
+          <a-entity position='-.2 .03 .026'>
+            <a-box id='leftStageLightButton' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Left' n-box-collider='type:hologram'></a-box>
+            <a-box id='leftStageLight1Indicator' class='indicator' position='-.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='leftStageLight2Indicator' class='indicator' position='-.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='leftStageLight3Indicator' class='indicator' position='.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='leftStageLight4Indicator' class='indicator' position='.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+          </a-entity>
+          <a-entity position='0 .03 .026'>
+            <a-box id='centerStageLightButton' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Center' n-box-collider='type:hologram'></a-box>
+            <a-box id='centerStageLight1Indicator' class='indicator' position='-.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='centerStageLight2Indicator' class='indicator' position='-.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='centerStageLight3Indicator' class='indicator' position='.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='centerStageLight4Indicator' class='indicator' position='.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+          </a-entity>
+          <a-entity position='.2 .03 .026'>
+            <a-box id='rightStageLightButton' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Right' n-box-collider='type:hologram'></a-box>
+            <a-box id='rightStageLight1Indicator' class='indicator' position='-.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='rightStageLight2Indicator' class='indicator' position='-.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='rightStageLight3Indicator' class='indicator' position='.01 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+            <a-box id='rightStageLight4Indicator' class='indicator' position='.03 .04 0' scale='.01 .01 .01' color='#222'></a-box>
+          </a-entity>
+
+        </a-entity>
+
+        <a-entity position='-.8 0 0'>
+          <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Sounds'></a-entity>
+          <a-box id='sound1Button' position='-.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Applause' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound2Button' position='0 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Laugh' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound3Button' position='.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Yay' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound4Button' position='-.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Crickets' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound5Button' position='0 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Trombone' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound6Button' position='.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Tada' n-box-collider='type:hologram'></a-box>
+        </a-entity>
+
+        <a-entity position='-1.3 0 0'>
+          <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro'></a-entity>
+          <a-box id='introStart' position='-.1 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
+          <a-box id='introStop' position='.1 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-box id='introFadeout' position='0 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
+
+          <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Outro'></a-entity>
+          <a-box id='outroStart' position='-.1 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroStop' position='.1 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroFadeout' position='0 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='lightTest' position='0 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Test' n-box-collider='type:hologram'></a-box>
+          <a-box id='stopTest' position='.1 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+        </a-entity>
+
+        <a-entity position='1.3 0 0'>
+          <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Buildings'></a-entity>
+          <a-box id='buildingT' position='-.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingR' position='0 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:R' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingSmile' position='.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Smile' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='buildingStar' position='-.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Star' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingChecker' position='0 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Checker' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingPenis' position='.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Penis' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='buildingTRT' position='0 -.13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T R T' n-box-collider='type:hologram'></a-box>
+        </a-entity>
+      </a-entity>
+
+      <a-entity id='teleportButtons' position='0 -100 0'>
+        <a-box id='backstageButton' position='2.95 3 8.75' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Backstage' n-box-collider></a-box>
+        <a-box id='backstageButton2' position='2.92 5 8.75' rotation='-30 -90 0' scale='.1 .1 .025' color='darkblue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Backstage' n-box-collider></a-box>
+        <a-box id='controlRoomButton' position='10.7 1.5 -17' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Control Room' n-box-collider></a-box>
+        <a-box id='vipButton' position='10.7 1.15 -17' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To VIP Seating' n-box-collider></a-box>
+        <a-box id='leftStageButton' position='-8 1.6 -9.02' rotation='0 213 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
+        <a-box id='rightStageButton' position='8 1.6 -9.02' rotation='0 147 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
+
+        <a-entity position='0 2.5 -11.31' rotation='0 180 0' n-text='fontSize: 2; width: 4; text: <align=left><-- Performer Stage & Stage Left\n\n<align=right>News Stage & Stage Right -->'></a-entity>
+
+        <a-entity position='-7 .23 -6.2' rotation='5 30 0'>
+          <a-entity position='0 .101 0.5' rotation='0 45 0'>
+            <a-plane rotation='-90 0 0' scale='.5 .05 1' color='black'></a-plane>
+            <a-plane rotation='-90 90 0' scale='.5 .05 1' color='black'></a-plane>
+            <a-circle position='.25 0 0' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='-.25 0 0' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='0 0 .25' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='0 0 -.25' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+          </a-entity>
+        </a-entity>
+        <a-entity position='7 .23 -6.2' rotation='5 -30 0'>
+          <a-entity position='0 .101 0.5' rotation='0 45 0'>
+            <a-plane rotation='-90 0 0' scale='.5 .05 1' color='black'></a-plane>
+            <a-plane rotation='-90 90 0' scale='.5 .05 1' color='black'></a-plane>
+            <a-circle position='.25 0 0' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='-.25 0 0' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='0 0 .25' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+            <a-circle position='0 0 -.25' rotation='-90 0 0' radius='.025' color='black'></a-circle>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      
+      <a-entity id='controlRoomTarget' position='0 1.5 10' rotation='0 180 0'></a-entity>
+      <a-entity id='vipTarget' position='0 4 9' rotation='0 180 0'></a-entity>
+      <a-entity id='backstageTarget' position='8 0 -21' rotation='0 -35 0'></a-entity>
+      <a-entity id='audienceTarget' position='0 1.5 4' rotation='0 180 0'></a-entity>
+
+      <a-entity id='leftStageTarget' position='-6.8 1 -5.9' rotation='0 30 0'></a-entity>
+      <a-entity id='rightStageTarget' position='6.8 1 -5.9' rotation='0 -30 0'></a-entity>
+
+      <a-entity id='portalTarget' position='0 -20 0' rotation='0 180 0'></a-entity>
+      
+      <a-plane position='0 -20 0' rotation='-90 0 0' scale='5 5 1' color='black' n-mesh-collider='type: environment; convex: false'></a-plane>
+      
+      <a-box id='controlBox' position='0 3 8.75' scale='6 2 3.5' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+
+      <a-entity id='teleporters' position='0 0 0' altspace-cursor-collider='enabled: false'>
+        <a-box position='0 2.5 -51' scale='200 5 100' material='visible: false'></a-box>
+        <a-box position='0 2.5 56' scale='200 5 100' material='visible: false'></a-box>
+
+        <a-box position='-53 2.5 -.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-53.5 2.5 .5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-54 2.5 1.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-54.5 2.5 2.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-55 2.5 3.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-55.5 2.5 4.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='-56 2.5 5.5' scale='100 5 1' material='visible: false'></a-box>
+
+        <a-box position='53 2.5 -.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='53.5 2.5 .5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='54 2.5 1.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='54.5 2.5 2.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='55 2.5 3.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='55.5 2.5 4.5' scale='100 5 1' material='visible: false'></a-box>
+        <a-box position='56 2.5 5.5' scale='100 5 1' material='visible: false'></a-box>
+
+        <a-box position='0 7.5 0' scale='100 5 100' material='visible: false'></a-box>
+        <a-box position='0 -10 -5.5' scale='24 20 35' material='visible: false'></a-box>
+      </a-entity>
+
+      <a-entity id='fallTeleporters' position='0 0 0' altspace-cursor-collider='enabled: false'>
+        <a-box position='0 -10.5 -145' scale='500 20 250' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+        <a-box position='0 -10.5 135' scale='500 20 250' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+
+        <a-box position='135 -10.5 0' scale='250 20 500' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+        <a-box position='-135 -10.5 0' scale='250 20 500' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
+      </a-entity>
+
+      <a-entity id='sound1' sync sync-n-sound></a-entity>
+      <a-entity id='sound2' sync sync-n-sound></a-entity>
+      <a-entity id='sound3' sync sync-n-sound></a-entity>
+      <a-entity id='sound4' sync sync-n-sound></a-entity>
+      <a-entity id='sound5' sync sync-n-sound></a-entity>
+      <a-entity id='sound6' sync sync-n-sound></a-entity>
+      <a-entity id='micTap' sync sync-n-sound></a-entity>
+      <a-entity id='introPlayer' sync sync-n-sound></a-entity>
+      <a-entity id='outroPlayer' sync sync-n-sound></a-entity>
+
+      <a-box id='joinButton' position='0 -1.5 -2' scale='.2 .2 .2'></a-box>
+    </a-entity>
+
+    <a-entity id='portal1' position='0 -1000 0' n-portal='targetEntity: #portalTarget' n-skeleton-parent='part: head'></a-entity>
+    <a-entity id='portal2' position='0 -1000 0' n-portal n-skeleton-parent='part: head'></a-entity>
+
+    <!-- <a-sphere position='-7.3 1 -6.5' radius='.1'></a-sphere>
+    <a-sphere position='0 1 -8' radius='.1'></a-sphere>
+    <a-sphere position='7.3 1 -6.5' radius='.1'></a-sphere> -->
+
+    <a-entity id='building1' position='-13 6 -40' scale='.5 .5 .5'>
+    	<a-plane position='0 12.5 -.1' scale='21 45 1' color='#222' altspace-cursor-collider='enabled: false'></a-plane>
+    </a-entity>
+    <a-entity id='building2' position='3 9.5 -60' scale='.3 .3 .3'>
+        <a-plane position='0 5 -.1' scale='21 60 1' color='#202020' altspace-cursor-collider='enabled: false'></a-plane>
+      </a-entity>
+    <a-entity id='building3' position='13 8 -50' scale='.45 .45 .45'>
+      <a-plane position='0 12.5 -.1' scale='21 45 1' color='#252525' altspace-cursor-collider='enabled: false'></a-plane>
+    </a-entity>
+
+    <a-entity id='introTargets1' position='-5 22 -5' scale='3 1.5 2' rotation='0 30 0'>
+      <a-entity rotation='0 0 0'>
+        <a-sphere id='introTarget11' position='0 1 0' radius='.05' color='blue'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -30'>
+        <a-sphere id='introTarget12' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -60'>
+        <a-sphere id='introTarget13' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -90'>
+        <a-sphere id='introTarget14' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -120'>
+        <a-sphere id='introTarget15' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -150'>
+        <a-sphere id='introTarget16' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -180'>
+        <a-sphere id='introTarget17' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -210'>
+        <a-sphere id='introTarget18' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -240'>
+        <a-sphere id='introTarget19' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -270'>
+        <a-sphere id='introTarget110' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -300'>
+        <a-sphere id='introTarget111' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -330'>
+        <a-sphere id='introTarget112' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+    </a-entity>
+    <a-entity id='introTargets2' position='-2 22 -6.2' scale='4 1.5 2' rotation='0 15 0'>
+      <a-entity rotation='0 0 0'>
+        <a-sphere id='introTarget21' position='0 1 0' radius='.05' color='blue'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -30'>
+        <a-sphere id='introTarget22' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -60'>
+        <a-sphere id='introTarget23' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -90'>
+        <a-sphere id='introTarget24' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -120'>
+        <a-sphere id='introTarget25' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -150'>
+        <a-sphere id='introTarget26' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -180'>
+        <a-sphere id='introTarget27' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -210'>
+        <a-sphere id='introTarget28' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -240'>
+        <a-sphere id='introTarget29' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -270'>
+        <a-sphere id='introTarget210' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -300'>
+        <a-sphere id='introTarget211' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -330'>
+        <a-sphere id='introTarget212' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+    </a-entity>
+    <a-entity id='introTargets3' position='2 22 -6.2' scale='4 1.5 2' rotation='0 -15 0'>
+      <a-entity rotation='0 0 0'>
+        <a-sphere id='introTarget31' position='0 1 0' radius='.05' color='blue'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -30'>
+        <a-sphere id='introTarget32' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -60'>
+        <a-sphere id='introTarget33' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -90'>
+        <a-sphere id='introTarget34' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -120'>
+        <a-sphere id='introTarget35' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -150'>
+        <a-sphere id='introTarget36' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -180'>
+        <a-sphere id='introTarget37' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -210'>
+        <a-sphere id='introTarget38' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -240'>
+        <a-sphere id='introTarget39' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -270'>
+        <a-sphere id='introTarget310' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -300'>
+        <a-sphere id='introTarget311' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -330'>
+        <a-sphere id='introTarget312' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+    </a-entity>
+    <a-entity id='introTargets4' position='5 22 -5' scale='3 1.5 2' rotation='0 -30 0'>
+      <a-entity rotation='0 0 0'>
+        <a-sphere id='introTarget41' position='0 1 0' radius='.05' color='blue'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -30'>
+        <a-sphere id='introTarget42' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -60'>
+        <a-sphere id='introTarget43' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -90'>
+        <a-sphere id='introTarget44' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -120'>
+        <a-sphere id='introTarget45' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -150'>
+        <a-sphere id='introTarget46' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -180'>
+        <a-sphere id='introTarget47' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -210'>
+        <a-sphere id='introTarget48' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -240'>
+        <a-sphere id='introTarget49' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -270'>
+        <a-sphere id='introTarget410' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -300'>
+        <a-sphere id='introTarget411' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+      <a-entity rotation='0 0 -330'>
+        <a-sphere id='introTarget412' position='0 1 0' radius='.05'></a-sphere>
+      </a-entity>
+    </a-entity>
+
+    <!-- <a-entity position='0 21.5 0' scale='.025 .025 .025'>
+      <a-box scale='12 9 7' color='black'></a-box>
+    </a-entity> -->
+  </a-scene>
+<script>
+  for (var i = 0; i < 12; i ++) {
+    introTargets1.children[i].children[0].setAttribute('material', 'visible', false);
+    introTargets2.children[i].children[0].setAttribute('material', 'visible', false);
+    introTargets3.children[i].children[0].setAttribute('material', 'visible', false);
+    introTargets4.children[i].children[0].setAttribute('material', 'visible', false);
+  }
+
+  var scene = document.querySelector('a-scene');
+  scene.addEventListener('connected', function() {
+    syncSetup = true;
+    start()      
+  });
+
+  sound1.setAttribute('n-sound', {src: 'sounds/laugh'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
+  sound2.setAttribute('n-sound', {src: 'sounds/laugh'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
+  sound3.setAttribute('n-sound', {src: 'sounds/yay'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.5, spatialBlend: 0.5});
+  sound4.setAttribute('n-sound', {src: 'sounds/crickets'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+  sound5.setAttribute('n-sound', {src: 'sounds/trombone'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+  sound6.setAttribute('n-sound', {src: 'sounds/win'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
+  micTap.setAttribute('n-sound', {src: 'sounds/micTap'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+  introPlayer.setAttribute('n-sound', {src: 'sounds/intro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.25, spatialBlend: 0.5});
+  outroPlayer.setAttribute('n-sound', {src: 'sounds/outro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.15, spatialBlend: 0.5});
+
+  sound3.addEventListener('sound-played', function(){
+    console.log('sound started');
+  });
+  sound3.addEventListener('sound-paused', function(){
+    console.log('sound ended');
+  });
+
+  function start() {
+    var windows1 = [];
+    var windows2 = [];
+    var windows3 = [];
+    addWindows(windows1, building1);
+    addWindows(windows2, building2);
+    addWindows(windows3, building3);
+    function addWindows(arr,entity) {
+      //windows = [];
+      for (var i = 0; i < 100; i++) {
+        var x = -9 + (i * 2);
+        var y = 33;
+        if (i > 9) {
+          y = y - 3;
+          x = -9 + ((i - 10) * 2);
+        }
+        if (i > 19) {
+          y = y - 3;
+          x = -9 + ((i - 20) * 2);
+        }
+        if (i > 29) {
+          y = y - 3;
+          x = -9 + ((i - 30) * 2);
+        }
+        if (i > 39) {
+          y = y - 3;
+          x = -9 + ((i - 40) * 2);
+        }
+        if (i > 49) {
+          y = y - 3;
+          x = -9 + ((i - 50) * 2);
+        }
+        if (i > 59) {
+          y = y - 3;
+          x = -9 + ((i - 60) * 2);
+        }
+        if (i > 69) {
+          y = y - 3;
+          x = -9 + ((i - 70) * 2);
+        }
+        if (i > 79) {
+          y = y - 3;
+          x = -9 + ((i - 80) * 2);
+        }
+        if (i > 89) {
+          y = y - 3;
+          x = -9 + ((i - 90) * 2);
+        }
+        var w = document.createElement('a-plane');
+        w.setAttribute('scale', '1 1.5 1');
+        w.setAttribute('position', {x: x, y: y, z: 0});
+        w.setAttribute('src', 'https://bengarfield.github.io/AltVR/DumpsterFire/windowOff.jpg');
+        w.setAttribute('altspace-cursor-collider', 'enabled: false');
+        arr.push(w);
+        entity.appendChild(w);
+      }
     }
-	};
-	xhr.open("GET", url, true);
-	xhr.send();
 
-	function findGetParameter(parameterName) {
-		var result = null,
-		tmp = [];
-		location.search
-		.substr(1)
-				.split("&")
-				.forEach(function (item) {
-				tmp = item.split("=");
-				if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-		});
-		return result;
-	}
-	</script>
+    var sync = scene.systems['sync-system'].connection;
+    
+    Promise.all([
+      altspace.getUser(),
+      altspace.getThreeJSTrackingSkeleton()
+    ]).then(function(results){
+      // console.log(results);
+      var user = results[0];
+      var skel = results[1];
+
+      sync.app.child('userIds').child(user.displayName).set(user);
+
+      sync.instance.child('building1').on('value', function(data){
+        if (data.val() != null) {
+          setWindows(windows1,data.val());
+        }
+      });
+      sync.instance.child('building2').on('value', function(data){
+        if (data.val() != null) {
+          setWindows(windows2,data.val());
+        }
+      });
+      sync.instance.child('building3').on('value', function(data){
+        if (data.val() != null) {
+          setWindows(windows3,data.val());
+        }
+      });
+
+      function setWindows(arr,str) {
+        switch (str) {
+          case 't':
+            str = '0000000000001111110000111111000000110000000011000000001100000000110000000011000000001100000000000000';
+            break;
+          case 'r':
+            str = '0000000000001111000000111111000011001100001111110000111100000011011000001100110000110011000000000000';
+            break;
+          case 'checker':
+            str = '0101010101101010101001010101011010101010010101010110101010100101010101101010101001010101011010101010';
+            break;
+          case 'smile':
+            str = '0000000000000000000000110011000011001100000000000001000000100010000100000111100000000000000000000000';
+            break;
+          case 'penis':
+            str = '0001110000001010100000100010000010001000001000100000100010000100000100100000001010001000100111011100';
+            break;
+          case 'star':
+            str = '0000010000000011100000001110000111111111001111111000011111000001111100001110111000110001100000000000';
+            break;
+          case 'the':
+            str = '1110000000010000000001000000000101010000000111000000010100000001010111000000011000000001000000000111';
+            break;
+          case 'roof':
+            str = '1100000000101001110011000101001010010100000001110001110000000101001110010100110001110010000000001000';
+            break;
+          case 'top':
+            str = '1110000000010000000001000000000101110000000101000000010100000001110111000000010100000001110000000100';
+            break;
+        }
+        for (var i = 0; i < str.length; i++) {
+          //console.log(str.charAt(i));
+          if (str.charAt(i) == '0') {
+            arr[i].setAttribute('src', 'https://bengarfield.github.io/AltVR/DumpsterFire/windowOff.jpg');
+          } else {
+            arr[i].setAttribute('src', 'https://bengarfield.github.io/AltVR/DumpsterFire/windowOn.jpg');
+          }
+        }
+      }
+
+      var isMod = user.isModerator;
+      var onGuestList = false;
+      var isProducer = false;
+      
+      function setupTeleporters() {
+        for (var i = 0; i < teleporters.children.length; i++) {
+          teleporters.children[i].object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+            joints: [['Head','Center',0]],
+            jointCubeSize: .01
+          }));
+          teleporters.children[i].object3D.addEventListener('jointcollisionenter', function(e){
+            if (!onGuestList) {
+              quickTeleportTo('audienceTarget');
+            }
+          });
+        }
+        for (var i = 0; i < fallTeleporters.children.length; i++) {
+          fallTeleporters.children[i].object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+            joints: [['Head','Center',0]],
+            jointCubeSize: .01
+          }));
+          fallTeleporters.children[i].object3D.addEventListener('jointcollisionenter', function(e){
+            if (onGuestList) {
+              quickTeleportTo('backstageTarget');
+            } else {
+              quickTeleportTo('audienceTarget');
+            }
+          });
+        }
+      }
+      
+      function setupCockpitTeleporters() {
+        var backButton = document.createElement('a-box');
+        backButton.setAttribute('position', '.7 -.18 -1.5');
+        backButton.setAttribute('rotation', '-20 0 0');
+        backButton.setAttribute('scale', '.1 .1 .05');
+        backButton.setAttribute('color', 'blue');
+        backButton.setAttribute('n-text', 'verticalAlign: bottom; height: 3; fontSize: 4; text: Back\nstage');
+        backButton.setAttribute('n-box-collider', '');
+        backButton.setAttribute('n-cockpit-parent', '');
+        backButton.addEventListener('mouseup', function(){
+          teleportTo('backstageTarget');
+        });
+        scene.appendChild(backButton);
+
+        var vipButton2 = document.createElement('a-box');
+        vipButton2.setAttribute('position', '.85 -.18 -1.5');
+        vipButton2.setAttribute('rotation', '-20 0 0');
+        vipButton2.setAttribute('scale', '.1 .1 .05');
+        vipButton2.setAttribute('color', 'blue');
+        vipButton2.setAttribute('n-text', 'verticalAlign: bottom; height: 2.2; fontSize: 4; text: VIP');
+        vipButton2.setAttribute('n-box-collider', '');
+        vipButton2.setAttribute('n-cockpit-parent', '');
+        vipButton2.addEventListener('mouseup', function(){
+          teleportTo('vipTarget');
+        });
+        scene.appendChild(vipButton2);
+
+        var contRoomButton = document.createElement('a-box');
+        contRoomButton.setAttribute('position', '1 -.18 -1.5');
+        contRoomButton.setAttribute('rotation', '-20 0 0');
+        contRoomButton.setAttribute('scale', '.1 .1 .05');
+        contRoomButton.setAttribute('color', 'blue');
+        contRoomButton.setAttribute('n-text', 'verticalAlign: bottom; height: 3; fontSize: 4; text: Control\nRoom');
+        contRoomButton.setAttribute('n-box-collider', '');
+        contRoomButton.setAttribute('n-cockpit-parent', '');
+        contRoomButton.addEventListener('mouseup', function(){
+          teleportTo('controlRoomTarget');
+        });
+        scene.appendChild(contRoomButton);
+      }
+
+      function setUpGuestFeatures() {
+        onGuestList = true;
+        
+        model.setAttribute('obj-model', 'obj: models/roof.obj');
+        model.addEventListener('model-loaded', function(){
+          console.log('colision model loaded');
+          model.object3D.traverse(function(child){
+            if (child instanceof THREE.Mesh) {
+              child.material.visible = false;
+            }
+          });
+          setTimeout(function(){
+            quickTeleportTo(spawnPoint);
+          }, 500);
+        });
+        
+        teleportButtons.setAttribute('position', '0 0 0');
+        backstageButton.addEventListener('mouseup', function(){
+          teleportTo('backstageTarget');
+        });
+        backstageButton2.addEventListener('mouseup', function(){
+          teleportTo('backstageTarget');
+        }); 
+        vipButton.addEventListener('mouseup', function(){
+          teleportTo('vipTarget');
+        });
+        controlRoomButton.addEventListener('mouseup', function(){
+          teleportTo('controlRoomTarget');
+        });
+        leftStageButton.addEventListener('mouseup', function(){
+          quickTeleportTo('leftStageTarget');
+        });
+        rightStageButton.addEventListener('mouseup', function(){
+          quickTeleportTo('rightStageTarget');
+        });
+
+        controlBox.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+          joints: [['Head','Center',0]],
+          jointCubeSize: .01
+        }));
+        controlBox.object3D.addEventListener('jointcollisionenter', function(e){
+          curList.forEach(function(c){
+            c.children[0].setAttribute('opacity', '0.5');
+          });
+        });
+        controlBox.object3D.addEventListener('jointcollisionleave', function(e){
+          curList.forEach(function(c){
+            c.children[0].setAttribute('opacity', '1');
+          });
+        });
+
+        podiumMic.object3D.children[0].addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+          joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+          jointCubeSize: .02
+        }));
+        podiumMic.object3D.children[0].addEventListener('jointcollisionenter', function(e){
+          micTap.components.sync.takeOwnership();
+          micTap.components['n-sound'].playSound();
+        });
+
+        performerMic.object3D.children[0].addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+          joints: [['Middle','Right',0],['Middle','Right',1],['Middle','Right',2],['Middle','Right',3],['Middle','Left',0],['Middle','Left',1],['Middle','Left',2],['Middle','Left',3]],
+          jointCubeSize: .02
+        }));
+        performerMic.object3D.children[0].addEventListener('jointcollisionenter', function(e){
+          micTap.components.sync.takeOwnership();
+          micTap.components['n-sound'].playSound();
+        });
+
+        respawner.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
+          joints: [['Head','Center',0]],
+          jointCubeSize: .01
+        }));
+        respawner.object3D.addEventListener('jointcollisionenter', function(e){
+          quickTeleportTo(spawnPoint);
+        });
+      }
+      
+      var lightSelected = null;
+      var lightsSelected = {light1:false, light2:false, light3:false, light4:false};
+      function setupProducerFeatures() {
+        isProducer = true;
+        // sound1Button.addEventListener('mouseup', function(){
+        //   sound1.components.sync.takeOwnership();
+        //   sound1.components['n-sound'].playSound();
+        // });
+        sound2Button.addEventListener('mouseup', function(){
+          sound2.components.sync.takeOwnership();
+          sound2.components['n-sound'].playSound();
+        });
+        sound3Button.addEventListener('mouseup', function(){
+          sound3.components.sync.takeOwnership();
+          sound3.components['n-sound'].playSound();
+        });
+        sound4Button.addEventListener('mouseup', function(){
+          sound4.components.sync.takeOwnership();
+          sound4.components['n-sound'].playSound();
+        });
+        sound5Button.addEventListener('mouseup', function(){
+          sound5.components.sync.takeOwnership();
+          sound5.components['n-sound'].playSound();
+        });
+        sound6Button.addEventListener('mouseup', function(){
+          sound6.components.sync.takeOwnership();
+          sound6.components['n-sound'].playSound();
+        });
+
+
+        curtainsLeft.addEventListener('mouseup', function(){
+          if (curtainButtonsEnabled) {
+            if (curtainState == 'closed' || curtainState == 'center') {
+              sync.instance.child('curtainState').set('centerLeft');
+            } else if (curtainState == 'opened') {
+              sync.instance.child('curtainState').set('centerRight');
+            } else if (curtainState == 'centerLeft') {
+              sync.instance.child('curtainState').set('center');
+            } else if (curtainState == 'centerRight') {
+              sync.instance.child('curtainState').set('opened');
+            }
+          }
+        });
+        curtainsCenter.addEventListener('mouseup', function(){
+          if (curtainButtonsEnabled) {
+            if (curtainState == 'center') {
+              sync.instance.child('curtainState').set('closed');
+            } else {
+              sync.instance.child('curtainState').set('center');
+            }
+          }
+        });
+        curtainsRight.addEventListener('mouseup', function(){
+          if (curtainButtonsEnabled) {
+            if (curtainState == 'closed' || curtainState == 'center') {
+              sync.instance.child('curtainState').set('centerRight');
+            } else if (curtainState == 'opened') {
+              sync.instance.child('curtainState').set('centerLeft');
+            } else if (curtainState == 'centerRight') {
+              sync.instance.child('curtainState').set('center');
+            } else if (curtainState == 'centerLeft') {
+              sync.instance.child('curtainState').set('opened');
+            }
+          }
+        });
+
+        openButton.addEventListener('mouseup', function(){
+          if (curtainButtonsEnabled) {
+            sync.instance.child('curtainState').set('opened');
+          }
+        });
+        closeButton.addEventListener('mouseup', function(){
+          if (curtainButtonsEnabled) {
+            sync.instance.child('curtainState').set('closed');
+          }
+        });
+        
+        screenToggle.addEventListener('mouseup', function(){
+          sync.instance.child('screenHidden').set(!screenHidden);
+        });
+        micToggle.addEventListener('mouseup', function(){
+          if (micButtonEnabled) {
+            if (micState == 'lowered') {
+              sync.instance.child('micState').set('raised');
+            } else {
+              sync.instance.child('micState').set('lowered');
+            }
+          }
+        });
+
+        //light panel 2
+
+        light1PowerButton.addEventListener('mouseup', function(){
+          sync.instance.child('light1State').set(!light1State);
+        });
+        light2PowerButton.addEventListener('mouseup', function(){
+          sync.instance.child('light2State').set(!light2State);
+        });
+        light3PowerButton.addEventListener('mouseup', function(){
+          sync.instance.child('light3State').set(!light3State);
+        });
+        light4PowerButton.addEventListener('mouseup', function(){
+          sync.instance.child('light4State').set(!light4State);
+        });
+        
+        light1Selector.addEventListener('mouseup', function(){
+          lightsSelected.light1 = !lightsSelected.light1;
+          if (lightsSelected.light1) {
+            light1Selector.setAttribute('color', '#900');
+          } else {
+            light1Selector.setAttribute('color', 'red');
+          }
+        });
+        light2Selector.addEventListener('mouseup', function(){
+          lightsSelected.light2 = !lightsSelected.light2;
+          if (lightsSelected.light2) {
+            light2Selector.setAttribute('color', '#900');
+          } else {
+            light2Selector.setAttribute('color', 'red');
+          }
+        });
+        light3Selector.addEventListener('mouseup', function(){
+          lightsSelected.light3 = !lightsSelected.light3;
+          if (lightsSelected.light3) {
+            light3Selector.setAttribute('color', '#900');
+          } else {
+            light3Selector.setAttribute('color', 'red');
+          }
+        });
+        light4Selector.addEventListener('mouseup', function(){
+          lightsSelected.light4 = !lightsSelected.light4;
+          if (lightsSelected.light4) {
+            light4Selector.setAttribute('color', '#900');
+          } else {
+            light4Selector.setAttribute('color', 'red');
+          }
+        });
+
+        resetLightsButton.addEventListener('mouseup', function(){
+          animating = false;
+          sync.instance.child('trackedUser1').set(null);
+          sync.instance.child('trackedUser2').set(null);
+          sync.instance.child('trackedUser3').set(null);
+          sync.instance.child('trackedUser4').set(null);
+          
+          sync.instance.child('light1State').set(false);
+          sync.instance.child('light2State').set(false);
+          sync.instance.child('light3State').set(false);
+          sync.instance.child('light4State').set(false);
+
+          sync.instance.child('lightPos').set({light1:'left',light2:'center',light3:'center',light4:'right'});
+        });
+
+        function checkForTrackedUsers() {
+          if (lightsSelected.light1 && lightPos.light1 == 'user') {
+            sync.instance.child('trackedUser1').set(null);
+          }
+          if (lightsSelected.light2 && lightPos.light2 == 'user') {
+            sync.instance.child('trackedUser2').set(null);
+          }
+          if (lightsSelected.light3 && lightPos.light3 == 'user') {
+            sync.instance.child('trackedUser3').set(null);
+          }
+          if (lightsSelected.light4 && lightPos.light4 == 'user') {
+            sync.instance.child('trackedUser4').set(null);
+          }
+        }
+        function resetLightButtons() {
+          lightsSelected = {light1:false, light2:false, light3:false, light4:false};
+          light1Selector.setAttribute('color', 'red');
+          light2Selector.setAttribute('color', 'red');
+          light3Selector.setAttribute('color', 'red');
+          light4Selector.setAttribute('color', 'red');
+        }
+
+        leftStageLightButton.addEventListener('mouseup', function(){
+          checkForTrackedUsers();
+          sync.instance.child('lightPos').set({light1: lightsSelected.light1 ? 'left' : lightPos.light1, light2: lightsSelected.light2 ? 'left' : lightPos.light2, light3: lightsSelected.light3 ? 'left' : lightPos.light3, light4: lightsSelected.light4 ? 'left' : lightPos.light4});
+          resetLightButtons();
+        });
+        centerStageLightButton.addEventListener('mouseup', function(){
+          checkForTrackedUsers();
+          sync.instance.child('lightPos').set({light1: lightsSelected.light1 ? 'center' : lightPos.light1, light2: lightsSelected.light2 ? 'center' : lightPos.light2, light3: lightsSelected.light3 ? 'center' : lightPos.light3, light4: lightsSelected.light4 ? 'center' : lightPos.light4});
+          resetLightButtons();
+        });
+        rightStageLightButton.addEventListener('mouseup', function(){
+          checkForTrackedUsers();
+          sync.instance.child('lightPos').set({light1: lightsSelected.light1 ? 'right' : lightPos.light1, light2: lightsSelected.light2 ? 'right' : lightPos.light2, light3: lightsSelected.light3 ? 'right' : lightPos.light3, light4: lightsSelected.light4 ? 'right' : lightPos.light4});
+          resetLightButtons();
+        });
+
+        buildingT.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('t');
+          sync.instance.child('building2').set('t');
+          sync.instance.child('building3').set('t');
+        });
+        buildingR.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('r');
+          sync.instance.child('building2').set('r');
+          sync.instance.child('building3').set('r');
+        });
+        buildingSmile.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('smile');
+          sync.instance.child('building2').set('smile');
+          sync.instance.child('building3').set('smile');
+        });
+        buildingStar.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('star');
+          sync.instance.child('building2').set('star');
+          sync.instance.child('building3').set('star');
+        });
+        buildingChecker.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('checker');
+          sync.instance.child('building2').set('checker');
+          sync.instance.child('building3').set('checker');
+        });
+        buildingPenis.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('penis');
+          sync.instance.child('building2').set('penis');
+          sync.instance.child('building3').set('penis');
+        });
+        buildingTRT.addEventListener('mouseup', function(){
+          sync.instance.child('building1').set('the');
+          sync.instance.child('building2').set('roof');
+          sync.instance.child('building3').set('top');
+        });
+
+
+        introStart.addEventListener('mouseup', function(){
+          introPlayer.components.sync.takeOwnership();
+          introPlayer.setAttribute('n-sound', 'volume', '0.25');
+          introPlayer.components['n-sound'].playSound();
+        });
+        introStop.addEventListener('mouseup', function(){
+          introPlayer.components.sync.takeOwnership();
+          introPlayer.components['n-sound'].pauseSound();
+        });
+        introFadeout.addEventListener('mouseup', function(){
+          introPlayer.components.sync.takeOwnership();
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.225');
+          }, 250);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.2');
+          }, 500);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.175');
+          }, 750);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.15');
+          }, 1000);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.125');
+          }, 1250);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.1');
+          }, 1500);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.075');
+          }, 1750);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.05');
+          }, 2000);
+          setTimeout(function(){
+            introPlayer.setAttribute('n-sound', 'volume', '0.025');
+          }, 2250);
+          setTimeout(function(){
+            introPlayer.components['n-sound'].pauseSound();
+          }, 2500);
+        });
+
+        outroStart.addEventListener('mouseup', function(){
+          outroPlayer.components.sync.takeOwnership();
+          outroPlayer.setAttribute('n-sound', 'volume', '0.15');
+          outroPlayer.components['n-sound'].playSound();
+        });
+        outroStop.addEventListener('mouseup', function(){
+          outroPlayer.components.sync.takeOwnership();
+          outroPlayer.components['n-sound'].pauseSound();
+        });
+        outroFadeout.addEventListener('mouseup', function(){
+          outroPlayer.components.sync.takeOwnership();
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.135');
+          }, 250);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.12');
+          }, 500);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.105');
+          }, 750);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.09');
+          }, 1000);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.075');
+          }, 1250);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.06');
+          }, 1500);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.045');
+          }, 1750);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.03');
+          }, 2000);
+          setTimeout(function(){
+            outroPlayer.setAttribute('n-sound', 'volume', '0.015');
+          }, 2250);
+          setTimeout(function(){
+            outroPlayer.components['n-sound'].pauseSound();
+          }, 2500);
+        });
+        
+        var animating = false;
+        lightTest.addEventListener('mouseup', function(){
+          animating = true;
+          sync.instance.child('lightPos').set({light1:'intro',light2:'intro',light3:'intro',light4:'intro'});
+          sync.instance.child('light1State').set(true);
+          sync.instance.child('light2State').set(true);
+          sync.instance.child('light3State').set(true);
+          sync.instance.child('light4State').set(true);
+          introTest1();
+          setTimeout(function(){
+            if (animating) {
+              introTest2();
+            }
+          }, 250);
+          setTimeout(function(){
+            if (animating) {
+              introTest3();
+            }
+          }, 500);
+          setTimeout(function(){
+            if (animating) {
+              introTest4();
+            }
+          }, 750);
+        });
+
+        stopTest.addEventListener('mouseup', function(){
+          animating = false;
+          sync.instance.child('lightPos').set({light1:'left',light2:'center',light3:'center',light4:'right'});
+        });
+      
+        function introTest1() {
+          sync.instance.child('tracked1Pos').set(new THREE.Vector3(0,-20,0).add(introTarget11.object3D.getWorldPosition()));
+          var x = 2;
+          for (var i = 0; i < 11; i++) {
+            setTimeout(function(){
+              if (animating) {
+                sync.instance.child('tracked1Pos').set(new THREE.Vector3(0,-20,0).add(document.querySelector('#introTarget1' + x).object3D.getWorldPosition()));
+                x++;
+              }
+            }, 250 * (i + 1));
+          }
+          
+          setTimeout(function(){
+            if (animating) {
+              introTest1();
+            }
+          }, 250 * 12);
+        }
+        function introTest2() {
+          sync.instance.child('tracked2Pos').set(new THREE.Vector3(0,-20,0).add(introTarget21.object3D.getWorldPosition()));
+          var x = 2;
+          for (var i = 0; i < 11; i++) {
+            setTimeout(function(){
+              if (animating) {
+                sync.instance.child('tracked2Pos').set(new THREE.Vector3(0,-20,0).add(document.querySelector('#introTarget2' + x).object3D.getWorldPosition()));
+                x++;
+              }
+            }, 250 * (i + 1));
+          }
+          
+          setTimeout(function(){
+            if (animating) {
+              introTest2();
+            }
+          }, 250 * 12);
+        }
+        function introTest3() {
+          sync.instance.child('tracked3Pos').set(new THREE.Vector3(0,-20,0).add(introTarget31.object3D.getWorldPosition()));
+          var x = 2;
+          for (var i = 0; i < 11; i++) {
+            setTimeout(function(){
+              if (animating) {
+                sync.instance.child('tracked3Pos').set(new THREE.Vector3(0,-20,0).add(document.querySelector('#introTarget3' + x).object3D.getWorldPosition()));
+                x++;
+              }
+            }, 250 * (i + 1));
+          }
+          
+          setTimeout(function(){
+            if (animating) {
+              introTest3();
+            }
+          }, 250 * 12);
+        }
+        function introTest4() {
+          sync.instance.child('tracked4Pos').set(new THREE.Vector3(0,-20,0).add(introTarget41.object3D.getWorldPosition()));
+          var x = 2;
+          for (var i = 0; i < 11; i++) {
+            setTimeout(function(){
+              if (animating) {
+                sync.instance.child('tracked4Pos').set(new THREE.Vector3(0,-20,0).add(document.querySelector('#introTarget4' + x).object3D.getWorldPosition()));
+                x++;
+              }
+            }, 250 * (i + 1));
+          }
+          
+          setTimeout(function(){
+            if (animating) {
+              introTest4();
+            }
+          }, 250 * 12);
+        }
+      }
+
+
+      var peopleList = [];
+      var teleportersSetup = false;
+      var spawnPoint = null;
+      var i = 0;
+      sync.app.child('people').on('value', function(data){
+        if (data.val() != null) {
+          Object.keys(data.val()).forEach(function(p){
+            if (peopleList.indexOf(p) == -1) {
+              peopleList.push(p);
+              if (data.val()[p].role == 'host' || data.val()[p].role == 'guest') {
+                addLightButton(data.val()[p]);
+                i++;
+              }
+              if (data.val()[p].id == user.userId || data.val()[p].secondaryId == user.userId) {
+                switch (data.val()[p].spawn) {
+                  case 'audience':
+                    spawnPoint = 'audienceTarget';
+                    break;
+                  case 'backstage':
+                    spawnPoint = 'backstageTarget';
+                    break;
+                  case 'control':
+                    spawnPoint = 'controlRoomTarget';
+                    break;
+                  case 'vip':
+                    spawnPoint = 'vipTarget';
+                    break;
+                }
+                setUpGuestFeatures();
+                if (data.val()[p].role == 'producer' || data.val()[p].role == 'host') {
+                  setupProducerFeatures();
+                  setupCockpitTeleporters();
+                }
+                // quickTeleportTo(spawnPoint);
+
+                if (data.val()[p].extras.includes('tie')) {
+                  scene.systems['sync-system'].instantiate('tie', scene);
+                }
+              }
+            }
+          });
+        }
+        if (!teleportersSetup) {
+          //teleportTo('audienceTarget');
+          setupTeleporters();
+          teleportersSetup = true;
+        }
+      });
+
+      var screenHidden = true;
+      sync.instance.child('screenHidden').on('value', function(data){
+        console.log('screen', data.val());
+        if (data.val() != null) {
+          screenHidden = data.val();
+          if (screenHidden) {
+            logoScreen.setAttribute('position', '0 2.9 -11');
+            screenToggle.setAttribute('color', 'red');
+          } else {
+            logoScreen.setAttribute('position', '0 2.9 -11.01');
+            screenToggle.setAttribute('color', 'green');
+          }
+        } else {
+          sync.instance.child('screenHidden').set(true);
+        }
+      });
+
+      var joinButtonEnabled = false;
+      sync.instance.child('joinButtonEnabled').on('value', function(data){
+        if (data.val() != null) {
+          joinButtonEnabled = data.val();
+          if (joinButtonEnabled) {
+          joinButton.setAttribute('position', '0 1.5 -2');
+          } else {
+            joinButton.setAttribute('position', '0 -1.5 -2');
+          }
+        } else {
+          sync.instance.child('joinButtonEnabled').set(false);
+        }
+      });
+      joinButton.addEventListener('mouseup', function(){
+        if (joinButtonEnabled) {
+          sync.app.child('tempUser').set({name: user.displayName, id: user.userId});
+          sync.instance.child('joinButtonEnabled').set(false);
+        }
+      });
+
+      if (user.displayName == 'Ben') {
+        addButton.addEventListener('mouseup', function(){
+          sync.instance.child('joinButtonEnabled').set(true);
+        });
+        var popup;
+        
+        sync.app.child('tempUser').on('value', function(data){
+          if (data.val() != null) {
+            altspace.open(location.origin + location.pathname + 'addUser.html?').then(function(pop){
+              popup = pop;
+            });
+          } else {
+            if (popup != undefined) {
+              popup.close();
+            }
+          }
+        });
+      }
+      var curList = [leftCur1,leftCur2,leftCur3,leftCur4,leftCur5,leftCur6,leftCur7,leftCur8,leftCur9,leftCur10, rightCur1,rightCur2,rightCur3,rightCur4,rightCur5,rightCur6,rightCur7,rightCur8,rightCur9,rightCur10];
+      
+      function teleportTo(target) {
+        respawner.setAttribute('position', '0 -50 0');
+        portal1.setAttribute('position', '0 0 0');
+        portal2.setAttribute('n-portal', 'targetEntity: #' + target);
+        setTimeout(function(){
+          portal1.setAttribute('position', '0 -1000 0');
+          portal2.setAttribute('position', '0 0 0');
+        }, 500);
+        setTimeout(function(){
+          portal2.setAttribute('position', '0 -1000 0');
+          respawner.setAttribute('position', '0 -17.5 0');
+        }, 1000);
+      }
+      
+      function quickTeleportTo(target) {
+        portal2.setAttribute('n-portal', 'targetEntity: #' + target);
+        portal2.setAttribute('position', '0 0 0');
+        setTimeout(function(){
+          portal2.setAttribute('position', '0 -1000 0');
+        }, 500);
+      }
+
+      var curtainState = '';
+      sync.instance.child('curtainState').on('value', function(data){
+        if (data.val() != null) {
+          animateCurtains(curtainState, data.val());
+          switch (data.val()) {
+            case 'closed':
+              curtainsLeft.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              curtainsCenter.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              curtainsRight.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              break;
+            case 'opened':
+              curtainsLeft.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsCenter.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsRight.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              break;
+            case 'center':
+              curtainsLeft.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              curtainsCenter.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsRight.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              break;
+            case 'centerLeft':
+              curtainsLeft.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsCenter.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsRight.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              break;
+            case 'centerRight':
+              curtainsLeft.setAttribute('color', curtainState == '' ? 'red' : '#900');
+              curtainsCenter.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              curtainsRight.setAttribute('color', curtainState == '' ? 'green' : '#050');
+              break;
+          }
+          curtainState = data.val();
+        } else {
+          sync.instance.child('curtainState').set('closed');
+        }
+      });
+
+
+      var light1State = false;
+      var light2State = false;
+      var light3State = false;
+      var light4State = false;
+      sync.instance.child('light1State').on('value', function(data){
+        if (data.val() != null) {
+          light1State = data.val();
+          if (light1State) {
+            light1PowerButton.setAttribute('color', 'yellow');
+            light1Cone.setAttribute('scale', '1 1 1');
+            light1Light.setAttribute('color', '#fff');
+          } else {
+            light1PowerButton.setAttribute('color', 'darkred');
+            light1Cone.setAttribute('scale', '.0001 .0001 .0001');
+            light1Light.setAttribute('color', '#111');
+          }
+        } else {
+          sync.instance.child('light1State').set(false);
+        }
+      });
+
+      sync.instance.child('light2State').on('value', function(data){
+        if (data.val() != null) {
+          light2State = data.val();
+          if (light2State) {
+            light2PowerButton.setAttribute('color', 'yellow');
+            light2Cone.setAttribute('scale', '1 1 1');
+            light2Light.setAttribute('color', '#fff');
+          } else {
+            light2PowerButton.setAttribute('color', 'darkred');
+            light2Cone.setAttribute('scale', '.0001 .0001 .0001');
+            light2Light.setAttribute('color', '#111');
+          }
+        } else {
+          sync.instance.child('light2State').set(false);
+        }
+      });
+
+      sync.instance.child('light3State').on('value', function(data){
+        if (data.val() != null) {
+          light3State = data.val();
+          if (light3State) {
+            light3PowerButton.setAttribute('color', 'yellow');
+            light3Cone.setAttribute('scale', '1 1 1');
+            light3Light.setAttribute('color', '#fff');
+          } else {
+            light3PowerButton.setAttribute('color', 'darkred');
+            light3Cone.setAttribute('scale', '.0001 .0001 .0001');
+            light3Light.setAttribute('color', '#111');
+          }
+        } else {
+          sync.instance.child('light3State').set(false);
+        }
+      });
+      sync.instance.child('light4State').on('value', function(data){
+        if (data.val() != null) {
+          light4State = data.val();
+          if (light4State) {
+            light4PowerButton.setAttribute('color', 'yellow');
+            light4Cone.setAttribute('scale', '1 1 1');
+            light4Light.setAttribute('color', '#fff');
+          } else {
+            light4PowerButton.setAttribute('color', 'darkred');
+            light4Cone.setAttribute('scale', '.0001 .0001 .0001');
+            light4Light.setAttribute('color', '#111');
+          }
+        } else {
+          sync.instance.child('light4State').set(false);
+        }
+      });
+
+      function clearIndicatorLights() {
+        document.querySelectorAll('.indicator').forEach(function(ind){
+          ind.setAttribute('color', '#222');
+        });
+      }
+      
+      var lightPos;
+      var lightPosToSet = {light1:'left', light2:'center', light3:'center', light4:'right'};
+      sync.instance.child('lightPos').on('value', function(data){
+        if (data.val() != null) {
+          clearIndicatorLights();
+
+          lightPos = data.val();
+          if (lightPos.light1 == 'intro') {
+            light1Cone.setAttribute('opacity', '0.2');
+          } else {
+            light1Cone.setAttribute('opacity', '0.1');
+            if (lightPos.light1 == 'center') {
+              centerStageLight1Indicator.setAttribute('color', '#0f0');
+              lightTween2(light1, light1Ghost, lightTweens.center, 1000);
+            } else if (lightPos.light1 == 'left') {
+              leftStageLight1Indicator.setAttribute('color', '#0f0');
+              lightTween2(light1, light1Ghost, lightTweens.left, 1000);
+            } else if (lightPos.light1 == 'right') {
+              rightStageLight1Indicator.setAttribute('color', '#0f0');
+              lightTween2(light1, light1Ghost, lightTweens.right, 1000);
+            }
+          }
+
+          if (lightPos.light2 == 'intro') {
+            light2Cone.setAttribute('opacity', '0.2');
+          } else {
+            light2Cone.setAttribute('opacity', '0.1');
+            if (lightPos.light2 == 'center') {
+              centerStageLight2Indicator.setAttribute('color', '#0f0');
+              lightTween2(light2, light2Ghost, lightTweens.center, 1000);
+            } else if (lightPos.light2 == 'left') {
+              leftStageLight2Indicator.setAttribute('color', '#0f0');
+              lightTween2(light2, light2Ghost, lightTweens.left, 1000);
+            } else if (lightPos.light2 == 'right') {
+              rightStageLight2Indicator.setAttribute('color', '#0f0');
+              lightTween2(light2, light2Ghost, lightTweens.right, 1000);
+            }
+          }
+          
+          if (lightPos.light3 == 'intro') {
+            light3Cone.setAttribute('opacity', '0.2');
+          } else {
+            light3Cone.setAttribute('opacity', '0.1');
+            if (lightPos.light3 == 'center') {
+              centerStageLight3Indicator.setAttribute('color', '#0f0');
+              lightTween2(light3, light3Ghost, lightTweens.center, 1000);
+            } else if (lightPos.light3 == 'left') {
+              leftStageLight3Indicator.setAttribute('color', '#0f0');
+              lightTween2(light3, light3Ghost, lightTweens.left, 1000);
+            } else if (lightPos.light3 == 'right') {
+              rightStageLight3Indicator.setAttribute('color', '#0f0');
+              lightTween2(light3, light3Ghost, lightTweens.right, 1000);
+            }
+          }
+
+          if (lightPos.light4 == 'intro') {
+            light4Cone.setAttribute('opacity', '0.2');
+          } else {
+            light4Cone.setAttribute('opacity', '0.1');
+            if (lightPos.light4 == 'center') {
+              centerStageLight4Indicator.setAttribute('color', '#0f0');
+              lightTween2(light4, light4Ghost, lightTweens.center, 1000);
+            } else if (lightPos.light4 == 'left') {
+              leftStageLight4Indicator.setAttribute('color', '#0f0');
+              lightTween2(light4, light4Ghost, lightTweens.left, 1000);
+            } else if (lightPos.light4 == 'right') {
+              rightStageLight4Indicator.setAttribute('color', '#0f0');
+              lightTween2(light4, light4Ghost, lightTweens.right, 1000);
+            }
+          }
+        } else {
+          sync.instance.child('lightPos').set({light1:'left', light2:'center', light3:'center', light4:'right'});
+        }
+      });
+
+      function lightTween2(light, ghost, pos, dur) {
+        ghost.object3D.lookAt(new THREE.Vector3(pos.x, pos.y, pos.z));
+
+        var time = {t:0};
+        var oldQuat = new THREE.Quaternion();
+        oldQuat.copy(light.object3D.quaternion);
+        var newQuat = new THREE.Quaternion(ghost.object3D.quaternion.x,ghost.object3D.quaternion.y,ghost.object3D.quaternion.z,ghost.object3D.quaternion.w);
+        new TWEEN.Tween(time).to({t:1}, dur)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(function(){
+          THREE.Quaternion.slerp(oldQuat, newQuat, light.object3D.quaternion, time.t);
+        })
+        .start();
+      }
+
+      var micState = '';
+      var micButtonEnabled = true;
+      sync.instance.child('micState').on('value', function(data){
+        if (data.val() != null) {
+          if (micState == '' && data.val() == 'raised') {
+            mic.setAttribute('position', '-.03 .53 1.265');
+            mic2.setAttribute('rotation', '-65 0 0');
+            micToggle.setAttribute('color', 'green');
+          } else {
+            if (data.val() == 'raised') {
+              new TWEEN.Tween(mic.object3D.position).to({y: 0.53}, 3000).start();
+              new TWEEN.Tween(mic2.object3D.rotation).to({x: THREE.Math.degToRad(-65)}, 1000).delay(3000).start();
+              micToggle.setAttribute('color', '#050');
+            } else {
+              new TWEEN.Tween(mic2.object3D.rotation).to({x: THREE.Math.degToRad(0)}, 1000).start();
+              new TWEEN.Tween(mic.object3D.position).to({y: -1.2}, 3000).delay(1000).start();
+              micToggle.setAttribute('color', '#900');
+            }
+            micButtonEnabled = false;
+            setTimeout(function(){
+              if (micToggle.getAttribute('color') == '#050') {
+                micToggle.setAttribute('color', 'green');
+              } else {
+                micToggle.setAttribute('color', 'red');
+              }
+              micButtonEnabled = true;
+            },4000);
+          }
+          micState = data.val();
+        } else {
+          sync.instance.child('micState').set('lowered');
+        }
+      });
+      
+      var lightTweens = {left:{x:-7.3,y:1,z:-6.5}, center:{x:0,y:1,z:-8}, right:{x:7.3,y:1,z:-6.5}};
+
+      function lightTween(l,p) {
+        var pos = new THREE.Vector3(0,0,0);
+        new TWEEN.Tween(l.object3D.rotation).to(lightTweens[l.id][p], 1000).start();
+      }
+      
+
+      function setLight1Buttons() {
+        lightLeft.setAttribute('color', lightPosToSet.light1 == 'left' ? 'blue' : lightPos.light1 == 'left' ? 'green' : 'red');
+        lightCenter.setAttribute('color', lightPosToSet.light1 == 'center' ? 'blue' : lightPos.light1 == 'center' ? 'green' : 'red');
+        lightRight.setAttribute('color', lightPosToSet.light1 == 'right' ? 'blue' : lightPos.light1 == 'right' ? 'green' : 'red');
+      }
+      function setLight2Buttons() {
+        light2Left.setAttribute('color', lightPosToSet.light2 == 'left' ? 'blue' : lightPos.light2 == 'left' ? 'green' : 'red');
+        light2Center.setAttribute('color', lightPosToSet.light2 == 'center' ? 'blue' : lightPos.light2 == 'center' ? 'green' : 'red');
+        light2Right.setAttribute('color', lightPosToSet.light2 == 'right' ? 'blue' : lightPos.light2 == 'right' ? 'green' : 'red');
+      }
+
+      function animateCurtains(from,to) {
+        console.log(from + ' to ' + to);
+        if (from == '') {
+          if (to == 'opened') {
+            leftCur2.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur3.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur4.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur5.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur6.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur7.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur8.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur9.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur10.object3D.rotation.y = THREE.Math.degToRad(45);
+
+            rightCur2.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur3.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur4.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur5.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur6.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur7.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur8.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur9.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur10.object3D.rotation.y = THREE.Math.degToRad(-50);
+          } else if (to == 'center') {
+            leftCur2.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur3.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur4.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur5.object3D.rotation.y = THREE.Math.degToRad(41.25);
+            leftCur6.object3D.rotation.y = THREE.Math.degToRad(36.25);
+            leftCur7.object3D.rotation.y = THREE.Math.degToRad(31.25);
+            leftCur8.object3D.rotation.y = THREE.Math.degToRad(26.25);
+            leftCur9.object3D.rotation.y = THREE.Math.degToRad(21.25);
+            leftCur10.object3D.rotation.y = THREE.Math.degToRad(16.25);
+
+            rightCur2.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur3.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur4.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur5.object3D.rotation.y = THREE.Math.degToRad(-46.25);
+            rightCur6.object3D.rotation.y = THREE.Math.degToRad(-41.25);
+            rightCur7.object3D.rotation.y = THREE.Math.degToRad(-36.25);
+            rightCur8.object3D.rotation.y = THREE.Math.degToRad(-31.25);
+            rightCur9.object3D.rotation.y = THREE.Math.degToRad(-26.25);
+            rightCur10.object3D.rotation.y = THREE.Math.degToRad(-21.25);
+          } else if (to == 'centerLeft') {
+            leftCur2.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur3.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur4.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur5.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur6.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur7.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur8.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur9.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur10.object3D.rotation.y = THREE.Math.degToRad(45);
+
+            rightCur2.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur3.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur4.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur5.object3D.rotation.y = THREE.Math.degToRad(-46.25);
+            rightCur6.object3D.rotation.y = THREE.Math.degToRad(-41.25);
+            rightCur7.object3D.rotation.y = THREE.Math.degToRad(-36.25);
+            rightCur8.object3D.rotation.y = THREE.Math.degToRad(-31.25);
+            rightCur9.object3D.rotation.y = THREE.Math.degToRad(-26.25);
+            rightCur10.object3D.rotation.y = THREE.Math.degToRad(-21.25);
+          } else if (to == 'centerRight') {
+            leftCur2.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur3.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur4.object3D.rotation.y = THREE.Math.degToRad(45);
+            leftCur5.object3D.rotation.y = THREE.Math.degToRad(41.25);
+            leftCur6.object3D.rotation.y = THREE.Math.degToRad(36.25);
+            leftCur7.object3D.rotation.y = THREE.Math.degToRad(31.25);
+            leftCur8.object3D.rotation.y = THREE.Math.degToRad(26.25);
+            leftCur9.object3D.rotation.y = THREE.Math.degToRad(21.25);
+            leftCur10.object3D.rotation.y = THREE.Math.degToRad(16.25);
+
+            rightCur2.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur3.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur4.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur5.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur6.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur7.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur8.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur9.object3D.rotation.y = THREE.Math.degToRad(-50);
+            rightCur10.object3D.rotation.y = THREE.Math.degToRad(-50);
+          }
+        } else if (from == 'closed') {
+          if (to == 'opened') {
+            animateLeftCurtain('closed','open');
+            animateRightCurtain('closed','open');
+            disableCurtainButtons(4500);
+          } else if (to == 'center') {
+            animateLeftCurtain('closed','half');
+            animateRightCurtain('closed','half');
+            disableCurtainButtons(1625);
+          } else if (to == 'centerLeft') {
+            animateLeftCurtain('closed','open');
+            animateRightCurtain('closed','half');
+            disableCurtainButtons(4500);
+          } else if (to == 'centerRight') {
+            animateLeftCurtain('closed','half');
+            animateRightCurtain('closed','open');
+            disableCurtainButtons(4500);
+          }
+        } else if (from == 'opened') {
+          if (to == 'closed') {
+            animateLeftCurtain('open','closed');
+            animateRightCurtain('open','closed');
+            disableCurtainButtons(4500);
+          } else if (to == 'center') {
+            animateLeftCurtain('open','half');
+            animateRightCurtain('open','half');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerLeft') {
+            animateRightCurtain('open','half');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerRight') {
+            animateLeftCurtain('open','half');
+            disableCurtainButtons(2875);
+          }
+        } else if (from == 'center') {
+          if (to == 'closed') {
+            animateLeftCurtain('half','closed');
+            animateRightCurtain('half','closed');
+            disableCurtainButtons(1625);
+          } else if (to == 'opened') {
+            animateLeftCurtain('half','open');
+            animateRightCurtain('half','open');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerLeft') {
+            animateLeftCurtain('half','open');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerRight') {
+            animateRightCurtain('half','open');
+            disableCurtainButtons(2875);
+          }
+        } else if (from == 'centerLeft') {
+          if (to == 'opened') {
+            animateRightCurtain('half','open');
+            disableCurtainButtons(2875);
+          } else if (to == 'closed') {
+            animateLeftCurtain('open','closed');
+            animateRightCurtain('half','closed');
+            disableCurtainButtons(4500);
+          } else if (to == 'center') {
+            animateLeftCurtain('open','half');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerRight') {
+            animateLeftCurtain('open','half');
+            animateRightCurtain('half','open');
+            disableCurtainButtons(2875);
+          }
+        } else if (from == 'centerRight') {
+          if (to == 'opened') {
+            animateLeftCurtain('half','open');
+            disableCurtainButtons(2875);
+          } else if (to == 'closed') {
+            animateLeftCurtain('half','closed');
+            animateRightCurtain('open','closed');
+            disableCurtainButtons(4500);
+          } else if (to == 'center') {
+            animateRightCurtain('open','half');
+            disableCurtainButtons(2875);
+          } else if (to == 'centerLeft') {
+            animateLeftCurtain('half','open');
+            animateRightCurtain('open','half');
+            disableCurtainButtons(2875);
+          }
+        }
+      }
+
+      function animateLeftCurtain(from,to) {
+        if (from == 'closed') {
+          if (to == 'open') {
+            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:Math.PI/4}, 500).start();
+            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:Math.PI/4}, 1000).start();
+            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:Math.PI/4}, 1500).start();
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:Math.PI/4}, 2000).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:Math.PI/4}, 2500).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:Math.PI/4}, 3000).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:Math.PI/4}, 3500).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:Math.PI/4}, 4000).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:Math.PI/4}, 4500).start();
+          } else if (to == 'half') {
+            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:Math.PI/4}, 500).start();
+            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:Math.PI/4}, 1000).start();
+            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:Math.PI/4}, 1500).start();
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(41.25)}, 1625).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(36.25)}, 1625).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(31.25)}, 1625).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(26.25)}, 1625).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(21.25)}, 1625).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:THREE.Math.degToRad(16.25)}, 1625).start();
+          }
+        } else if (from == 'open') {
+          if (to == 'closed') {
+            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:THREE.Math.degToRad(40)}, 500).delay(4000).start();
+            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:THREE.Math.degToRad(35)}, 1000).delay(3500).start();
+            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:THREE.Math.degToRad(30)}, 1500).delay(3000).start();
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(25)}, 2000).delay(2500).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(20)}, 2500).delay(2000).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(15)}, 3000).delay(1500).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(10)}, 3500).delay(1000).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(5)}, 4000).delay(500).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:0}, 4500).start();
+          } else if (to == 'half') {
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(41.25)}, 375).delay(2500).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(36.25)}, 875).delay(2000).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(31.25)}, 1375).delay(1500).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(26.25)}, 1875).delay(1000).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(21.25)}, 2375).delay(500).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:THREE.Math.degToRad(16.25)}, 2875).start();
+          }
+        } else if (from == 'half') {
+          if (to == 'open') {
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:Math.PI/4}, 375).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:Math.PI/4}, 875).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:Math.PI/4}, 1375).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:Math.PI/4}, 1875).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:Math.PI/4}, 2375).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:Math.PI/4}, 2875).start();
+          } else if (to == 'closed') {
+            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:THREE.Math.degToRad(40)}, 500).delay(1125).start();
+            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:THREE.Math.degToRad(35)}, 1000).delay(625).start();
+            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:THREE.Math.degToRad(30)}, 1500).delay(125).start();
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(25)}, 1625).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(20)}, 1625).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(15)}, 1625).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(10)}, 1625).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(5)}, 1625).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:0}, 1625).start();
+          }
+        }
+      }
+
+      function animateRightCurtain(from,to) {
+        if (from == 'closed') {
+          if (to == 'open') {
+            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 500).start();
+            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1000).start();
+            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1500).start();
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 2000).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 2500).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 3000).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 3500).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 4000).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 4500).start();
+          } else if (to == 'half') {
+            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 500).start();
+            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1000).start();
+            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1500).start();
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-46.25)}, 1625).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-41.25)}, 1625).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-36.25)}, 1625).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-31.25)}, 1625).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-26.25)}, 1625).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-21.25)}, 1625).start();
+          }
+        } else if (from == 'open') {
+          if (to == 'closed') {
+            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-45)}, 500).delay(4000).start();
+            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-40)}, 1000).delay(3500).start();
+            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-35)}, 1500).delay(3000).start();
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-30)}, 2000).delay(2500).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-25)}, 2500).delay(2000).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-20)}, 3000).delay(1500).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-15)}, 3500).delay(1000).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-10)}, 4000).delay(500).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-5)}, 4500).start();
+          } else if (to == 'half') {
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-46.25)}, 375).delay(2500).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-41.25)}, 875).delay(2000).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-36.25)}, 1375).delay(1500).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-31.25)}, 1875).delay(1000).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-26.25)}, 2375).delay(500).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-21.25)}, 2875).start();
+          }
+        } else if (from == 'half') {
+          if (to == 'open') {
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 375).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 875).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1375).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1875).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 2375).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 2875).start();
+          } else if (to == 'closed') {
+            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-45)}, 500).delay(1125).start();
+            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-40)}, 1000).delay(625).start();
+            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-35)}, 1500).delay(125).start();
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-30)}, 1625).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-25)}, 1625).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-20)}, 1625).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-15)}, 1625).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-10)}, 1625).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-5)}, 1625).start();
+          }
+        }
+      }
+      
+      var curtainButtonsEnabled = true;
+      function disableCurtainButtons(i) {
+        var list = [curtainsLeft,curtainsCenter,curtainsRight,openButton,closeButton];
+        curtainButtonsEnabled = false;
+        list.forEach(function(b){
+          if (b.getAttribute('color') == 'red') {
+            b.setAttribute('color', '#900');
+          } else if (b.getAttribute('color') == 'green') {
+            b.setAttribute('color', '#050');
+          }
+        });
+        setTimeout(function(){
+          curtainButtonsEnabled = true;
+          list.forEach(function(b){
+          if (b.getAttribute('color') == '#900') {
+            b.setAttribute('color', 'red');
+          } else if (b.getAttribute('color') == '#050') {
+            b.setAttribute('color', 'green');
+          }
+        });
+        }, i);
+      }
+      
+
+      function addLightButton(p) {
+        var group = document.createElement('a-entity');
+        group.setAttribute('position', {x:-.39 + ((i < 7 ? i : i - 7) * .13), y:i < 7 ? -.1 : -.23, z:0.026});
+        lightControlPanel.appendChild(group);
+
+        var button = document.createElement('a-box');
+        button.setAttribute('scale', '.05 .05 .02');
+        button.setAttribute('color', 'red');
+        button.setAttribute('n-box-collider', '');
+        button.setAttribute('n-text', 'fontSize: 4; verticalAlign: bottom; height: 2.3; text:' + p.name);
+        group.appendChild(button);
+        for (var x = 1; x < 5; x++) {
+          var light = document.createElement('a-box');
+          light.setAttribute('id', 'light' + x + 'Indicator' + p.id);
+          light.setAttribute('class', 'light' + x + 'Indicator');
+          light.setAttribute('position', {x:-.05 + (x * .02), y:.04, z:0});
+          light.setAttribute('scale', '.01 .01 .01');
+          light.setAttribute('color', '#222');
+          group.appendChild(light);
+        }
+
+        button.addEventListener('mouseup', function(){
+          if (isProducer) {
+            if (lightsSelected.light1) {
+              sync.instance.child('trackedUser1').set(p.id);
+            }
+            if (lightsSelected.light2) {
+              sync.instance.child('trackedUser2').set(p.id);
+            }
+            if (lightsSelected.light3) {
+              sync.instance.child('trackedUser3').set(p.id);
+            }
+            if (lightsSelected.light4) {
+              sync.instance.child('trackedUser4').set(p.id);
+            }
+
+            sync.instance.child('lightPos').set({light1: lightsSelected.light1 ? 'user' : lightPos.light1, light2: lightsSelected.light2 ? 'user' : lightPos.light2, light3: lightsSelected.light3 ? 'user' : lightPos.light3, light4: lightsSelected.light4 ? 'user' : lightPos.light4});
+            lightsSelected = {light1:false, light2:false, light3:false, light4:false};
+            light1Selector.setAttribute('color', 'red');
+            light2Selector.setAttribute('color', 'red');
+            light3Selector.setAttribute('color', 'red');
+            light4Selector.setAttribute('color', 'red');
+          }
+        });
+      }
+      
+      
+      var syncInterval = 250;
+      var track1Loop;
+      var track2Loop;
+      var track3Loop;
+      var track4Loop;
+
+      var isTracking1 = false;
+      var isTracking2 = false;
+      var isTracking3 = false;
+      var isTracking4 = false;
+      sync.instance.child('trackedUser1').on('value', function(data){
+        document.querySelectorAll('.light1Indicator').forEach(function(b){
+          b.setAttribute('color', '#222');
+        });
+        if (user.userId == data.val()) {
+          sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          track1Loop = setInterval(function(){
+            sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          }, syncInterval);
+        } else {
+          clearInterval(track1Loop);
+          sync.instance.child('tracked1Pos').set(null);
+        }
+        if (data.val() != null) {
+          document.querySelector('#light1Indicator' + data.val().replace(/ /g, '_')).setAttribute('color', '#0f0');
+        }
+      });
+      sync.instance.child('trackedUser2').on('value', function(data){
+        document.querySelectorAll('.light2Indicator').forEach(function(b){
+          b.setAttribute('color', '#222');
+        });
+        if (user.userId == data.val()) {
+          sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          track2Loop = setInterval(function(){
+            sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          }, syncInterval);
+        } else {
+          clearInterval(track2Loop);
+          sync.instance.child('tracked2Pos').set(null);
+        }
+        if (data.val() != null) {
+          document.querySelector('#light2Indicator' + data.val().replace(/ /g, '_')).setAttribute('color', '#0f0');
+        }
+      });
+      sync.instance.child('trackedUser3').on('value', function(data){
+        document.querySelectorAll('.light3Indicator').forEach(function(b){
+          b.setAttribute('color', '#222');
+        });
+        if (user.userId == data.val()) {
+          sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          track3Loop = setInterval(function(){
+            sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          }, syncInterval);
+        } else {
+          clearInterval(track3Loop);
+          sync.instance.child('tracked3Pos').set(null);
+        }
+        if (data.val() != null) {
+          document.querySelector('#light3Indicator' + data.val().replace(/ /g, '_')).setAttribute('color', '#0f0');
+        }
+      });
+      sync.instance.child('trackedUser4').on('value', function(data){
+        document.querySelectorAll('.light4Indicator').forEach(function(b){
+          b.setAttribute('color', '#222');
+        });
+        if (user.userId == data.val()) {
+          sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          track4Loop = setInterval(function(){
+            sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          }, syncInterval);
+        } else {
+          clearInterval(track4Loop);
+          sync.instance.child('tracked4Pos').set(null);
+        }
+        if (data.val() != null) {
+          document.querySelector('#light4Indicator' + data.val().replace(/ /g, '_')).setAttribute('color', '#0f0');
+        }
+      });
+
+      sync.instance.child('tracked1Pos').on('value', function(data){
+        if (data.val() != null) {
+          lightTween2(light1, light1Ghost, data.val(), syncInterval);
+        }
+      });
+      sync.instance.child('tracked2Pos').on('value', function(data){
+        if (data.val() != null) {
+          lightTween2(light2, light2Ghost, data.val(), syncInterval);
+        }
+      });
+      sync.instance.child('tracked3Pos').on('value', function(data){
+        if (data.val() != null) {
+          lightTween2(light3, light3Ghost, data.val(), syncInterval);
+        }
+      });
+      sync.instance.child('tracked4Pos').on('value', function(data){
+        if (data.val() != null) {
+          lightTween2(light4, light4Ghost, data.val(), syncInterval);
+        }
+      });
+    });
+
+  }
+
+</script>
 </body>
 </html>
