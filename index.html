@@ -21,6 +21,8 @@
       <a-entity id='model' n-mesh-collider='type: environment; convex: false'></a-entity>
 
       <a-mixin id='tie' position='0 .24 -.15' rotation='0 180 0' scale='.42 .42 .42' obj-model='obj: models/tie.obj; mtl: models/tie.mtl' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
+      <a-mixin id='flower1' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower1.obj; mtl: models/flower.mtl' collapse-model n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
+      <a-mixin id='flower2' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower2.obj; mtl: models/flower.mtl' collapse-model n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
 
       <a-box id='podiumMic' position='-5.462 1.533 3.112' scale='.035 .035 .035' material='visible: false' altspace-cursor-collider='enabled: false'></a-box>
       
@@ -1235,6 +1237,10 @@
 
                 if (data.val()[p].extras.includes('tie')) {
                   scene.systems['sync-system'].instantiate('tie', scene);
+                }
+                if (data.val()[p].extras.includes('flower')) {
+                  scene.systems['sync-system'].instantiate('flower1', scene);
+                  scene.systems['sync-system'].instantiate('flower2', scene);
                 }
               }
             }
