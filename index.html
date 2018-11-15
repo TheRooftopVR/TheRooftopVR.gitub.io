@@ -183,14 +183,16 @@
         <a-entity position='-1.3 0 0'>
           <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
           <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro'></a-entity>
-          <a-box id='introStart' position='-.1 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
-          <a-box id='introStop' position='.1 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
-          <a-box id='introFadeout' position='0 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
+          <a-box id='introCopy' position='-.15 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Copy' n-box-collider='type:hologram'></a-box>
+          <a-box id='introStart' position='-.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
+          <a-box id='introStop' position='.15 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-box id='introFadeout' position='.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
 
           <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Outro'></a-entity>
-          <a-box id='outroStart' position='-.1 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroStop' position='.1 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroFadeout' position='0 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroCopy' position='-.15 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Copy' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroStart' position='-.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroStop' position='.15 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroFadeout' position='.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
 
           <a-box id='lightTest' position='0 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Test' n-box-collider='type:hologram'></a-box>
           <a-box id='stopTest' position='.1 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
@@ -323,18 +325,9 @@
     <a-sphere position='0 1 -8' radius='.1'></a-sphere>
     <a-sphere position='7.3 1 -6.5' radius='.1'></a-sphere> -->
 
-    <a-entity id='building1' position='-13 9 -40' scale='.5 .5 .5'>
-      <a-plane position='0 -15 -.1' scale='21 100 1' color='#222' altspace-cursor-collider='enabled: false'></a-plane>
-      <a-plane position='0 -30 0' scale='20 69 1' material='src: models/textures/windowOff2.png; transparent: true; repeat: 10 23' altspace-cursor-collider='enabled: false'></a-plane>
-    </a-entity>
-    <a-entity id='building2' position='3 14.5 -60' scale='.3 .3 .3'>
-        <a-plane position='0 -15 -.1' scale='21 100 1' color='#202020' altspace-cursor-collider='enabled: false'></a-plane>
-        <a-plane position='0 -30 0' scale='20 69 1' material='src: models/textures/windowOff2.png; transparent: true; repeat: 10 23' altspace-cursor-collider='enabled: false'></a-plane>
-      </a-entity>
-    <a-entity id='building3' position='13 12 -50' scale='.45 .45 .45'>
-      <a-plane position='0 -15 -.1' scale='21 100 1' color='#252525' altspace-cursor-collider='enabled: false'></a-plane>
-      <a-plane position='0 -30 0' scale='20 69 1' material='src: models/textures/windowOff2.png; transparent: true; repeat: 10 23' altspace-cursor-collider='enabled: false'></a-plane>
-    </a-entity>
+    <a-entity id='building1' position='-13 9 -40' scale='.5 .5 .5'></a-entity>
+    <a-entity id='building2' position='3 14.5 -60' scale='.3 .3 .3'></a-entity>
+    <a-entity id='building3' position='13 12 -50' scale='.45 .45 .45'></a-entity>
 
     <a-entity id='introTargets1' position='-5 22 -5' scale='3 1.5 2' rotation='0 30 0'>
       <a-entity rotation='0 0 0'>
@@ -1027,7 +1020,9 @@
           sync.instance.child('building3').set('top');
         });
 
-
+        introCopy.addEventListener('mouseup', function(){
+          altspace.open(location.origin + location.pathname + 'copy.html?string=duqNfJet2DM');
+        });
         introStart.addEventListener('mouseup', function(){
           introPlayer.components.sync.takeOwnership();
           introPlayer.setAttribute('n-sound', 'volume', '0.25');
@@ -1070,7 +1065,10 @@
             introPlayer.components['n-sound'].pauseSound();
           }, 2500);
         });
-
+        
+        outroCopy.addEventListener('mouseup', function(){
+          altspace.open(location.origin + location.pathname + 'copy.html?string=_hbnMgHgZfs');
+        });
         outroStart.addEventListener('mouseup', function(){
           outroPlayer.components.sync.takeOwnership();
           outroPlayer.setAttribute('n-sound', 'volume', '0.15');

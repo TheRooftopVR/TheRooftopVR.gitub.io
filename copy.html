@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Copy</title>
+	<style>
+		.center {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			zoom: 500%;
+		}
+	</style>
+</head>
+<body style='background-color: #00000066'>
+		<div>
+      <input id='btnCopy' type='button' value='Copy' class='center'>
+    </div>
+<script>
+	btnCopy.addEventListener('mouseup', function(){
+		var str = findGetParameter('string');
+		copyToClipboard(str);
+		btnCopy.value = 'Copied!';
+	});
+
+	function copyToClipboard(str){
+    var el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+		console.log(str + ' copied');
+  }
+	function findGetParameter(parameterName) {
+		var result = null,
+		tmp = [];
+		location.search
+		.substr(1)
+				.split("&")
+				.forEach(function (item) {
+				tmp = item.split("=");
+				if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+		});
+		return result;
+	}
+</script>
+</body>
+</html>
