@@ -182,20 +182,13 @@
 
         <a-entity position='-1.3 0 0'>
           <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
-          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro'></a-entity>
-          <a-box id='introCopy' position='-.15 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Copy' n-box-collider='type:hologram'></a-box>
-          <a-box id='introStart' position='-.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
-          <a-box id='introStop' position='.15 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
-          <a-box id='introFadeout' position='.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
+          <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro/Outro'></a-entity>
+          <a-box id='introCopy' position='-.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Intro' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroCopy' position='.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Outro' n-box-collider='type:hologram'></a-box>
 
-          <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Outro'></a-entity>
-          <a-box id='outroCopy' position='-.15 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Copy' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroStart' position='-.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroStop' position='.15 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroFadeout' position='.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Fade' n-box-collider='type:hologram'></a-box>
-
-          <a-box id='lightTest' position='0 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Test' n-box-collider='type:hologram'></a-box>
-          <a-box id='stopTest' position='.1 -.23 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Lights'></a-entity>
+          <a-box id='lightTest' position='-.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
+          <a-box id='stopTest' position='.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
         </a-entity>
 
         <a-entity position='1.3 0 0'>
@@ -507,15 +500,6 @@
   sound5.setAttribute('n-sound', {src: 'sounds/trombone'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
   sound6.setAttribute('n-sound', {src: 'sounds/win'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
   micTap.setAttribute('n-sound', {src: 'sounds/micTap'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
-  introPlayer.setAttribute('n-sound', {src: 'sounds/intro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.25, spatialBlend: 0.5});
-  outroPlayer.setAttribute('n-sound', {src: 'sounds/outro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.15, spatialBlend: 0.5});
-
-  sound3.addEventListener('sound-played', function(){
-    console.log('sound started');
-  });
-  sound3.addEventListener('sound-paused', function(){
-    console.log('sound ended');
-  });
 
   function start() {
     var windows1 = [];
@@ -1023,93 +1007,8 @@
         introCopy.addEventListener('mouseup', function(){
           altspace.open(location.origin + location.pathname + 'copy.html?string=duqNfJet2DM');
         });
-        introStart.addEventListener('mouseup', function(){
-          introPlayer.components.sync.takeOwnership();
-          introPlayer.setAttribute('n-sound', 'volume', '0.25');
-          introPlayer.components['n-sound'].playSound();
-        });
-        introStop.addEventListener('mouseup', function(){
-          introPlayer.components.sync.takeOwnership();
-          introPlayer.components['n-sound'].pauseSound();
-        });
-        introFadeout.addEventListener('mouseup', function(){
-          introPlayer.components.sync.takeOwnership();
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.225');
-          }, 250);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.2');
-          }, 500);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.175');
-          }, 750);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.15');
-          }, 1000);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.125');
-          }, 1250);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.1');
-          }, 1500);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.075');
-          }, 1750);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.05');
-          }, 2000);
-          setTimeout(function(){
-            introPlayer.setAttribute('n-sound', 'volume', '0.025');
-          }, 2250);
-          setTimeout(function(){
-            introPlayer.components['n-sound'].pauseSound();
-          }, 2500);
-        });
-        
         outroCopy.addEventListener('mouseup', function(){
           altspace.open(location.origin + location.pathname + 'copy.html?string=_hbnMgHgZfs');
-        });
-        outroStart.addEventListener('mouseup', function(){
-          outroPlayer.components.sync.takeOwnership();
-          outroPlayer.setAttribute('n-sound', 'volume', '0.15');
-          outroPlayer.components['n-sound'].playSound();
-        });
-        outroStop.addEventListener('mouseup', function(){
-          outroPlayer.components.sync.takeOwnership();
-          outroPlayer.components['n-sound'].pauseSound();
-        });
-        outroFadeout.addEventListener('mouseup', function(){
-          outroPlayer.components.sync.takeOwnership();
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.135');
-          }, 250);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.12');
-          }, 500);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.105');
-          }, 750);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.09');
-          }, 1000);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.075');
-          }, 1250);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.06');
-          }, 1500);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.045');
-          }, 1750);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.03');
-          }, 2000);
-          setTimeout(function(){
-            outroPlayer.setAttribute('n-sound', 'volume', '0.015');
-          }, 2250);
-          setTimeout(function(){
-            outroPlayer.components['n-sound'].pauseSound();
-          }, 2500);
         });
         
         var animating = false;
