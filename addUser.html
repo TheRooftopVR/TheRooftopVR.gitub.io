@@ -16,7 +16,7 @@
 			<p>Role: <select id='role'>
 				<option value="guest">Guest</option>
 				<option value="host">Host</option>
-				<option value="performer">Performer</option>
+				<option value="mod">Moderator</option>
 				<option value="producer">Producer</option>
 			</select></p>
 			<p>Spawn: <select id='spawn'>
@@ -38,8 +38,8 @@
 			case 'host':
 				spawn.value = 'backstage';
 				break;
-			case 'performer':
-				spawn.value = 'backstage';
+			case 'mod':
+				spawn.value = 'audience';
 				break;
 			case 'producer':
 				spawn.value = 'control';

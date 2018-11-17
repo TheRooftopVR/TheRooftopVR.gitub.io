@@ -509,7 +509,6 @@
     addWindows(windows2, building2);
     addWindows(windows3, building3);
     function addWindows(arr,entity) {
-      //windows = [];
       for (var i = 0; i < 100; i++) {
         var x = -9 + (i * 2);
         var y = 33;
@@ -699,7 +698,9 @@
             }
           });
           setTimeout(function(){
-            quickTeleportTo(spawnPoint);
+            if (spawnPoint != 'audienceTarget') {
+              quickTeleportTo(spawnPoint);
+            }
           }, 500);
         });
 
@@ -1126,6 +1127,7 @@
         if (data.val() != null) {
           Object.keys(data.val()).forEach(function(p){
             if (peopleList.indexOf(p) == -1) {
+              console.log(data.val()[p].role + ': ' + data.val()[p].name + ' - ' + data.val()[p].spawn);
               peopleList.push(p);
               if (data.val()[p].role == 'host' || data.val()[p].role == 'guest') {
                 addLightButton(data.val()[p]);
@@ -1176,7 +1178,6 @@
 
       var screenHidden = true;
       sync.instance.child('screenHidden').on('value', function(data){
-        console.log('screen', data.val());
         if (data.val() != null) {
           screenHidden = data.val();
           if (screenHidden) {
@@ -1603,7 +1604,7 @@
           } else if (to == 'center') {
             animateLeftCurtain('closed','half');
             animateRightCurtain('closed','half');
-            disableCurtainButtons(1625);
+            disableCurtainButtons(3250);
           } else if (to == 'centerLeft') {
             animateLeftCurtain('closed','open');
             animateRightCurtain('closed','half');
@@ -1693,15 +1694,15 @@
             new TWEEN.Tween(leftCur9.object3D.rotation).to({y:Math.PI/4}, 4000).start();
             new TWEEN.Tween(leftCur10.object3D.rotation).to({y:Math.PI/4}, 4500).start();
           } else if (to == 'half') {
-            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:Math.PI/4}, 500).start();
-            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:Math.PI/4}, 1000).start();
-            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:Math.PI/4}, 1500).start();
-            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(41.25)}, 1625).start();
-            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(36.25)}, 1625).start();
-            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(31.25)}, 1625).start();
-            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(26.25)}, 1625).start();
-            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(21.25)}, 1625).start();
-            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:THREE.Math.degToRad(16.25)}, 1625).start();
+            new TWEEN.Tween(leftCur2.object3D.rotation).to({y:Math.PI/4}, 1000).start();
+            new TWEEN.Tween(leftCur3.object3D.rotation).to({y:Math.PI/4}, 2000).start();
+            new TWEEN.Tween(leftCur4.object3D.rotation).to({y:Math.PI/4}, 3000).start();
+            new TWEEN.Tween(leftCur5.object3D.rotation).to({y:THREE.Math.degToRad(41.25)}, 3250).start();
+            new TWEEN.Tween(leftCur6.object3D.rotation).to({y:THREE.Math.degToRad(36.25)}, 3250).start();
+            new TWEEN.Tween(leftCur7.object3D.rotation).to({y:THREE.Math.degToRad(31.25)}, 3250).start();
+            new TWEEN.Tween(leftCur8.object3D.rotation).to({y:THREE.Math.degToRad(26.25)}, 3250).start();
+            new TWEEN.Tween(leftCur9.object3D.rotation).to({y:THREE.Math.degToRad(21.25)}, 3250).start();
+            new TWEEN.Tween(leftCur10.object3D.rotation).to({y:THREE.Math.degToRad(16.25)}, 3250).start();
           }
         } else if (from == 'open') {
           if (to == 'closed') {
@@ -1757,15 +1758,15 @@
             new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 4000).start();
             new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 4500).start();
           } else if (to == 'half') {
-            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 500).start();
-            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1000).start();
-            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1500).start();
-            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-46.25)}, 1625).start();
-            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-41.25)}, 1625).start();
-            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-36.25)}, 1625).start();
-            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-31.25)}, 1625).start();
-            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-26.25)}, 1625).start();
-            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-21.25)}, 1625).start();
+            new TWEEN.Tween(rightCur2.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 1000).start();
+            new TWEEN.Tween(rightCur3.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 2000).start();
+            new TWEEN.Tween(rightCur4.object3D.rotation).to({y:THREE.Math.degToRad(-50)}, 3000).start();
+            new TWEEN.Tween(rightCur5.object3D.rotation).to({y:THREE.Math.degToRad(-46.25)}, 3250).start();
+            new TWEEN.Tween(rightCur6.object3D.rotation).to({y:THREE.Math.degToRad(-41.25)}, 3250).start();
+            new TWEEN.Tween(rightCur7.object3D.rotation).to({y:THREE.Math.degToRad(-36.25)}, 3250).start();
+            new TWEEN.Tween(rightCur8.object3D.rotation).to({y:THREE.Math.degToRad(-31.25)}, 3250).start();
+            new TWEEN.Tween(rightCur9.object3D.rotation).to({y:THREE.Math.degToRad(-26.25)}, 3250).start();
+            new TWEEN.Tween(rightCur10.object3D.rotation).to({y:THREE.Math.degToRad(-21.25)}, 3250).start();
           }
         } else if (from == 'open') {
           if (to == 'closed') {
