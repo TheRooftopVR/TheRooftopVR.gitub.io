@@ -659,18 +659,6 @@
       }
       
       function setupCockpitTeleporters() {
-        var backButton = document.createElement('a-box');
-        backButton.setAttribute('position', '.7 -.18 -1.5');
-        backButton.setAttribute('rotation', '-20 0 0');
-        backButton.setAttribute('scale', '.1 .1 .05');
-        backButton.setAttribute('color', 'blue');
-        backButton.setAttribute('n-text', 'verticalAlign: bottom; height: 3; fontSize: 4; text: Back\nstage');
-        backButton.setAttribute('n-box-collider', '');
-        backButton.setAttribute('n-cockpit-parent', '');
-        backButton.addEventListener('mouseup', function(){
-          teleportTo('backstageTarget');
-        });
-        scene.appendChild(backButton);
 
         var vipButton2 = document.createElement('a-box');
         vipButton2.setAttribute('position', '.85 -.18 -1.5');
@@ -714,6 +702,19 @@
             quickTeleportTo(spawnPoint);
           }, 500);
         });
+
+        var backButton = document.createElement('a-box');
+        backButton.setAttribute('position', '.7 -.18 -1.5');
+        backButton.setAttribute('rotation', '-20 0 0');
+        backButton.setAttribute('scale', '.1 .1 .05');
+        backButton.setAttribute('color', 'blue');
+        backButton.setAttribute('n-text', 'verticalAlign: bottom; height: 3; fontSize: 4; text: Back\nstage');
+        backButton.setAttribute('n-box-collider', '');
+        backButton.setAttribute('n-cockpit-parent', '');
+        backButton.addEventListener('mouseup', function(){
+          teleportTo('backstageTarget');
+        });
+        scene.appendChild(backButton);
         
         teleportButtons.setAttribute('position', '0 0 0');
         backstageButton.addEventListener('mouseup', function(){
