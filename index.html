@@ -175,9 +175,13 @@
           <a-box id='sound1Button' position='-.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Applause' n-box-collider='type:hologram'></a-box>
           <a-box id='sound2Button' position='0 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Laugh' n-box-collider='type:hologram'></a-box>
           <a-box id='sound3Button' position='.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Yay' n-box-collider='type:hologram'></a-box>
+
           <a-box id='sound4Button' position='-.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Crickets' n-box-collider='type:hologram'></a-box>
           <a-box id='sound5Button' position='0 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Trombone' n-box-collider='type:hologram'></a-box>
           <a-box id='sound6Button' position='.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Tada' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='sound7Button' position='-.1 -.13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Drumroll' n-box-collider='type:hologram'></a-box>
+          <a-box id='sound8Button' position='0 -.13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 4; verticalAlign: bottom; height: 2.3; text:Rimshot' n-box-collider='type:hologram'></a-box>
         </a-entity>
 
         <a-entity position='-1.3 0 0'>
@@ -304,6 +308,8 @@
       <a-entity id='sound4' sync sync-n-sound></a-entity>
       <a-entity id='sound5' sync sync-n-sound></a-entity>
       <a-entity id='sound6' sync sync-n-sound></a-entity>
+      <a-entity id='sound7' sync sync-n-sound></a-entity>
+      <a-entity id='sound8' sync sync-n-sound></a-entity>
       <a-entity id='micTap' sync sync-n-sound></a-entity>
       <a-entity id='introPlayer' sync sync-n-sound></a-entity>
       <a-entity id='outroPlayer' sync sync-n-sound></a-entity>
@@ -499,6 +505,8 @@
   sound4.setAttribute('n-sound', {src: 'sounds/crickets'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
   sound5.setAttribute('n-sound', {src: 'sounds/trombone'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
   sound6.setAttribute('n-sound', {src: 'sounds/win'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
+  sound7.setAttribute('n-sound', {src: 'sounds/drumroll'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+  sound8.setAttribute('n-sound', {src: 'sounds/rimshot'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.4, spatialBlend: 0.5});
   micTap.setAttribute('n-sound', {src: 'sounds/micTap'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
 
   function start() {
@@ -807,6 +815,14 @@
           sound6.components.sync.takeOwnership();
           sound6.components['n-sound'].playSound();
         });
+        sound7Button.addEventListener('mouseup', function(){
+          sound7.components.sync.takeOwnership();
+          sound7.components['n-sound'].playSound();
+        });
+        sound8Button.addEventListener('mouseup', function(){
+          sound8.components.sync.takeOwnership();
+          sound8.components['n-sound'].playSound();
+        });
 
 
         curtainsLeft.addEventListener('mouseup', function(){
@@ -1007,10 +1023,10 @@
         });
 
         introCopy.addEventListener('mouseup', function(){
-          altspace.open(location.origin + location.pathname + 'copy.html?string=duqNfJet2DM');
+          altspace.open(location.origin + location.pathname + 'copy.html?string=0JaIbtK6P3s');
         });
         outroCopy.addEventListener('mouseup', function(){
-          altspace.open(location.origin + location.pathname + 'copy.html?string=_hbnMgHgZfs');
+          altspace.open(location.origin + location.pathname + 'copy.html?string=tZUuHGnAq7k');
         });
         
         var animating = false;
