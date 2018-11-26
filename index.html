@@ -7,7 +7,7 @@
 </head>
 <body>
   <a-scene altspace='fullspace: true' sync-system='author: BenG; app: TheRooftop; refUrl: https://altvr-apps.firebaseio.com/; instance: rooftop'>
-    <a-entity position='0 0 0'>
+    <a-entity position='0 3 0'>
       <a-entity position='0 -17.5 0' n-mesh-collider='type: environment; convex: false'>
         <a-plane position='0 0 -2.5' scale='5 5 5' rotation='0 0 0' color='black'></a-plane>
         <a-plane position='0 0 2.5' scale='5 5 5' rotation='0 180 0' color='black'></a-plane>
@@ -266,7 +266,7 @@
       <a-entity id='leftStageTarget' position='-6.8 1 -5.9' rotation='0 30 0'></a-entity>
       <a-entity id='rightStageTarget' position='6.8 1 -5.9' rotation='0 -30 0'></a-entity>
 
-      <a-entity id='portalTarget' position='0 -20 0' rotation='0 180 0'></a-entity>
+      <a-entity id='portalTarget' position='0 -17 0' rotation='0 180 0'></a-entity>
       
       <a-plane position='0 -20 0' rotation='-90 0 0' scale='5 5 1' color='black' n-mesh-collider='type: environment; convex: false'></a-plane>
       
@@ -326,9 +326,9 @@
     <a-sphere position='0 1 -8' radius='.1'></a-sphere>
     <a-sphere position='7.3 1 -6.5' radius='.1'></a-sphere> -->
 
-    <a-entity id='building1' position='-13 9 -40' scale='.5 .5 .5'></a-entity>
-    <a-entity id='building2' position='3 14.5 -60' scale='.3 .3 .3'></a-entity>
-    <a-entity id='building3' position='13 12 -50' scale='.45 .45 .45'></a-entity>
+    <a-entity id='building1' position='-13 12 -40' scale='.5 .5 .5'></a-entity>
+    <a-entity id='building2' position='3 17.5 -60' scale='.3 .3 .3'></a-entity>
+    <a-entity id='building3' position='13 15 -50' scale='.45 .45 .45'></a-entity>
 
     <a-entity id='introTargets1' position='-5 22 -5' scale='3 1.5 2' rotation='0 30 0'>
       <a-entity rotation='0 0 0'>
@@ -1978,9 +1978,9 @@
           b.setAttribute('color', '#222');
         });
         if (user.userId == data.val()) {
-          sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           track1Loop = setInterval(function(){
-            sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+            sync.instance.child('tracked1Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           }, syncInterval);
         } else {
           clearInterval(track1Loop);
@@ -1995,9 +1995,9 @@
           b.setAttribute('color', '#222');
         });
         if (user.userId == data.val()) {
-          sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           track2Loop = setInterval(function(){
-            sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+            sync.instance.child('tracked2Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           }, syncInterval);
         } else {
           clearInterval(track2Loop);
@@ -2012,9 +2012,9 @@
           b.setAttribute('color', '#222');
         });
         if (user.userId == data.val()) {
-          sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           track3Loop = setInterval(function(){
-            sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+            sync.instance.child('tracked3Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           }, syncInterval);
         } else {
           clearInterval(track3Loop);
@@ -2029,9 +2029,9 @@
           b.setAttribute('color', '#222');
         });
         if (user.userId == data.val()) {
-          sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+          sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           track4Loop = setInterval(function(){
-            sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y, z:skel.getJoint('Spine').position.z});
+            sync.instance.child('tracked4Pos').set({x:skel.getJoint('Spine').position.x, y:skel.getJoint('Spine').position.y - 2.8, z:skel.getJoint('Spine').position.z});
           }, syncInterval);
         } else {
           clearInterval(track4Loop);
