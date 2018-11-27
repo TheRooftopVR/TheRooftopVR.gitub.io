@@ -512,7 +512,7 @@
   sound7.setAttribute('n-sound', {src: 'sounds/drumroll'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
   sound8.setAttribute('n-sound', {src: 'sounds/rimshot'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.4, spatialBlend: 0.5});
   micTap.setAttribute('n-sound', {src: 'sounds/micTap'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
-  introPlayer.setAttribute('n-sound', {src: 'sounds/intro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.25, spatialBlend: 0.5});
+  introPlayer.setAttribute('n-sound', {src: 'sounds/intro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.15, spatialBlend: 0.5});
   //outroPlayer.setAttribute('n-sound', {src: 'sounds/outro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.15, spatialBlend: 0.5});
 
   function start() {
@@ -1048,7 +1048,7 @@
 
         introPlay.addEventListener('mouseup', function(){
           introPlayer.components.sync.takeOwnership();
-          introPlayer.setAttribute('n-sound', 'volume', '0.25');
+          introPlayer.setAttribute('n-sound', 'volume', '0.15');
           introPlayer.components['n-sound'].playSound();
           introPlayer.components['n-sound'].playSound();
         });
