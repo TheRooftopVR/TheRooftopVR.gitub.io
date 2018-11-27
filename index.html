@@ -189,8 +189,10 @@
         <a-entity position='-1.3 0 0'>
           <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
           <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro/Outro'></a-entity>
-          <a-box id='introCopy' position='-.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Intro' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroCopy' position='.05 .15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Outro' n-box-collider='type:hologram'></a-box>
+          <a-box id='introCopy' position='-.05 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Intro' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroCopy' position='.05 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Outro' n-box-collider='type:hologram'></a-box>
+          <a-cylinder id='introPlay' position='-.07 .1 .026' rotation='0 90 90' scale='.017 .017 .017' segments-radial='3' color='green' n-box-collider='type:hologram'></a-cylinder>
+          <a-box id='introStop' position='-.03 .1 .026' scale='.025 .025 .02' color='red' n-box-collider='type:hologram'></a-box>
 
           <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Lights'></a-entity>
           <a-box id='lightTest' position='-.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
@@ -332,154 +334,154 @@
 
     <a-entity id='introTargets1' position='-5 22 -5' scale='3 1.5 2' rotation='0 30 0'>
       <a-entity rotation='0 0 0'>
-        <a-sphere id='introTarget11' position='0 1 0' radius='.05' color='blue'></a-sphere>
+        <a-entity id='introTarget11' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -30'>
-        <a-sphere id='introTarget12' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget12' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -60'>
-        <a-sphere id='introTarget13' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget13' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -90'>
-        <a-sphere id='introTarget14' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget14' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -120'>
-        <a-sphere id='introTarget15' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget15' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -150'>
-        <a-sphere id='introTarget16' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget16' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -180'>
-        <a-sphere id='introTarget17' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget17' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -210'>
-        <a-sphere id='introTarget18' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget18' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -240'>
-        <a-sphere id='introTarget19' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget19' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -270'>
-        <a-sphere id='introTarget110' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget110' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -300'>
-        <a-sphere id='introTarget111' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget111' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -330'>
-        <a-sphere id='introTarget112' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget112' position='0 1 0'></a-entity>
       </a-entity>
     </a-entity>
     <a-entity id='introTargets2' position='-2 22 -6.2' scale='4 1.5 2' rotation='0 15 0'>
       <a-entity rotation='0 0 0'>
-        <a-sphere id='introTarget21' position='0 1 0' radius='.05' color='blue'></a-sphere>
+        <a-entity id='introTarget21' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -30'>
-        <a-sphere id='introTarget22' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget22' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -60'>
-        <a-sphere id='introTarget23' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget23' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -90'>
-        <a-sphere id='introTarget24' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget24' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -120'>
-        <a-sphere id='introTarget25' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget25' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -150'>
-        <a-sphere id='introTarget26' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget26' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -180'>
-        <a-sphere id='introTarget27' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget27' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -210'>
-        <a-sphere id='introTarget28' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget28' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -240'>
-        <a-sphere id='introTarget29' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget29' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -270'>
-        <a-sphere id='introTarget210' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget210' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -300'>
-        <a-sphere id='introTarget211' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget211' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -330'>
-        <a-sphere id='introTarget212' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget212' position='0 1 0'></a-entity>
       </a-entity>
     </a-entity>
     <a-entity id='introTargets3' position='2 22 -6.2' scale='4 1.5 2' rotation='0 -15 0'>
       <a-entity rotation='0 0 0'>
-        <a-sphere id='introTarget31' position='0 1 0' radius='.05' color='blue'></a-sphere>
+        <a-entity id='introTarget31' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -30'>
-        <a-sphere id='introTarget32' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget32' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -60'>
-        <a-sphere id='introTarget33' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget33' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -90'>
-        <a-sphere id='introTarget34' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget34' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -120'>
-        <a-sphere id='introTarget35' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget35' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -150'>
-        <a-sphere id='introTarget36' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget36' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -180'>
-        <a-sphere id='introTarget37' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget37' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -210'>
-        <a-sphere id='introTarget38' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget38' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -240'>
-        <a-sphere id='introTarget39' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget39' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -270'>
-        <a-sphere id='introTarget310' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget310' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -300'>
-        <a-sphere id='introTarget311' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget311' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -330'>
-        <a-sphere id='introTarget312' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget312' position='0 1 0'></a-entity>
       </a-entity>
     </a-entity>
     <a-entity id='introTargets4' position='5 22 -5' scale='3 1.5 2' rotation='0 -30 0'>
       <a-entity rotation='0 0 0'>
-        <a-sphere id='introTarget41' position='0 1 0' radius='.05' color='blue'></a-sphere>
+        <a-entity id='introTarget41' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -30'>
-        <a-sphere id='introTarget42' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget42' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -60'>
-        <a-sphere id='introTarget43' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget43' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -90'>
-        <a-sphere id='introTarget44' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget44' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -120'>
-        <a-sphere id='introTarget45' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget45' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -150'>
-        <a-sphere id='introTarget46' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget46' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -180'>
-        <a-sphere id='introTarget47' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget47' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -210'>
-        <a-sphere id='introTarget48' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget48' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -240'>
-        <a-sphere id='introTarget49' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget49' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -270'>
-        <a-sphere id='introTarget410' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget410' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -300'>
-        <a-sphere id='introTarget411' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget411' position='0 1 0'></a-entity>
       </a-entity>
       <a-entity rotation='0 0 -330'>
-        <a-sphere id='introTarget412' position='0 1 0' radius='.05'></a-sphere>
+        <a-entity id='introTarget412' position='0 1 0'></a-entity>
       </a-entity>
     </a-entity>
 
@@ -510,6 +512,8 @@
   sound7.setAttribute('n-sound', {src: 'sounds/drumroll'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
   sound8.setAttribute('n-sound', {src: 'sounds/rimshot'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.4, spatialBlend: 0.5});
   micTap.setAttribute('n-sound', {src: 'sounds/micTap'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
+  introPlayer.setAttribute('n-sound', {src: 'sounds/intro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.25, spatialBlend: 0.5});
+  //outroPlayer.setAttribute('n-sound', {src: 'sounds/outro'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.15, spatialBlend: 0.5});
 
   function start() {
     var windows1 = [];
@@ -1040,6 +1044,17 @@
         });
         outroCopy.addEventListener('mouseup', function(){
           altspace.open(location.origin + location.pathname + 'copy.html?string=tZUuHGnAq7k');
+        });
+
+        introPlay.addEventListener('mouseup', function(){
+          introPlayer.components.sync.takeOwnership();
+          introPlayer.setAttribute('n-sound', 'volume', '0.25');
+          introPlayer.components['n-sound'].playSound();
+          introPlayer.components['n-sound'].playSound();
+        });
+        introStop.addEventListener('mouseup', function(){
+          introPlayer.components.sync.takeOwnership();
+          introPlayer.components['n-sound'].pauseSound();
         });
         
         var animating = false;
