@@ -202,15 +202,17 @@
         <a-entity position='1.3 0 0'>
           <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
           <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Buildings'></a-entity>
-          <a-box id='buildingT' position='-.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T' n-box-collider='type:hologram'></a-box>
-          <a-box id='buildingR' position='0 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:R' n-box-collider='type:hologram'></a-box>
-          <a-box id='buildingSmile' position='.1 .13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Smile' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingT' position='-.1 .18 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingR' position='0 .18 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:R' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingSmile' position='.1 .18 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Smile' n-box-collider='type:hologram'></a-box>
 
-          <a-box id='buildingStar' position='-.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Star' n-box-collider='type:hologram'></a-box>
-          <a-box id='buildingChecker' position='0 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Checker' n-box-collider='type:hologram'></a-box>
-          <a-box id='buildingPenis' position='.1 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Penis' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingStar' position='-.1 .05 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Star' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingChecker' position='0 .05 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Checker' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingPenis' position='.1 .05 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Penis' n-box-collider='type:hologram'></a-box>
 
-          <a-box id='buildingTRT' position='0 -.13 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T R T' n-box-collider='type:hologram'></a-box>
+          <a-box id='buildingTRT' position='0 -.08 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T R T' n-box-collider='type:hologram'></a-box>
+
+          <a-box id='floorButton' position='-.13 -.21 .026' scale='.035 .035 .02' color='green' n-text='fontSize: 6; verticalAlign: bottom; height: 4.2; text:Audience\nLock' n-box-collider='type:hologram'></a-box>
         </a-entity>
       </a-entity>
 
@@ -564,7 +566,7 @@
         }
         var w = document.createElement('a-plane');
         w.setAttribute('scale', '1 1.5 1');
-        w.setAttribute('position', {x: x, y: y, z: 0});
+        w.setAttribute('position', {x: x, y: y, z: 0.1});
         w.setAttribute('src', 'models/textures/windowOff.jpg');
         w.setAttribute('altspace-cursor-collider', 'enabled: false');
         arr.push(w);
@@ -652,7 +654,7 @@
             jointCubeSize: .01
           }));
           teleporters.children[i].object3D.addEventListener('jointcollisionenter', function(e){
-            if (!onGuestList) {
+            if (!onGuestList && !floorEnabled) {
               quickTeleportTo('audienceTarget');
             }
           });
@@ -703,21 +705,7 @@
 
       function setUpGuestFeatures() {
         onGuestList = true;
-        
-        model.setAttribute('obj-model', 'obj: models/roof.obj');
-        model.addEventListener('model-loaded', function(){
-          console.log('colision model loaded');
-          model.object3D.traverse(function(child){
-            if (child instanceof THREE.Mesh) {
-              child.material.visible = false;
-            }
-          });
-          setTimeout(function(){
-            if (spawnPoint != 'audienceTarget') {
-              quickTeleportTo(spawnPoint);
-            }
-          }, 500);
-        });
+        loadCollision();
 
         var backButton = document.createElement('a-box');
         backButton.setAttribute('position', '.7 -.18 -1.5');
@@ -1039,6 +1027,10 @@
           sync.instance.child('building3').set('top');
         });
 
+        floorButton.addEventListener('mouseup', function(){
+          sync.instance.child('floorEnabled').set(!floorEnabled);
+        });
+
         introCopy.addEventListener('mouseup', function(){
           altspace.open(location.origin + location.pathname + 'copy.html?string=T6N11lq0FGU');
         });
@@ -1165,7 +1157,7 @@
 
       var peopleList = [];
       var teleportersSetup = false;
-      var spawnPoint = null;
+      var spawnPoint = 'audienceTarget';
       var i = 0;
       sync.app.child('people').on('value', function(data){
         if (data.val() != null) {
@@ -1196,6 +1188,8 @@
                 if (data.val()[p].role == 'producer' || data.val()[p].role == 'host') {
                   setupProducerFeatures();
                   setupCockpitTeleporters();
+                } else if (data.val()[p].role == 'camera') {
+                  model.setAttribute('position', '0 -1 0');
                 }
                 // quickTeleportTo(spawnPoint);
 
@@ -1223,6 +1217,44 @@
           //teleportTo('audienceTarget');
           setupTeleporters();
           teleportersSetup = true;
+        }
+      });
+
+      function loadCollision() {
+        model.setAttribute('position', '0 0 0');
+        model.setAttribute('obj-model', 'obj: models/roof.obj');
+        model.addEventListener('model-loaded', function(){
+          console.log('colision model loaded');
+          model.object3D.traverse(function(child){
+            if (child instanceof THREE.Mesh) {
+              child.material.visible = false;
+            }
+          });
+          setTimeout(function(){
+            if (spawnPoint != 'audienceTarget') {
+              quickTeleportTo(spawnPoint);
+            }
+          }, 500);
+        });
+      }
+
+      var floorEnabled = false;
+      sync.instance.child('floorEnabled').on('value', function(data){
+        if (data.val() != null) {
+          floorEnabled = data.val();
+          if (floorEnabled) {
+            floorButton.setAttribute('color', 'red');
+            if (!onGuestList) {
+              loadCollision();
+            }
+          } else {
+            floorButton.setAttribute('color', 'green');
+            if (!onGuestList) {
+              model.setAttribute('position', '0 1000 0');
+            }
+          }
+        } else {
+          sync.instance.child('floorEnabled').set(false);
         }
       });
 
