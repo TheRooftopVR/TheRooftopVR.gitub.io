@@ -584,7 +584,7 @@
       var user = results[0];
       var skel = results[1];
 
-      sync.app.child('userIds').child(user.displayName).set(user);
+      //sync.app.child('userIds').child(user.displayName).set(user);
 
       sync.instance.child('building1').on('value', function(data){
         if (data.val() != null) {
