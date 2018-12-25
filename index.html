@@ -4,6 +4,56 @@
 	<title>TheRooftop</title>
 	<script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
   <script src="https://sdk.altvr.com/libs/altspace.js/2.9.0/altspace.min.js"></script>
+  <script>
+    AFRAME.registerComponent('synced-attachment', {
+      init: function () {
+        this.syncSystem = this.el.sceneEl.systems['sync-system'];
+        this.syncSetup = false;
+        console.log('item spawned');
+        console.log(this);
+        console.log(this.el.components.sync);
+      },
+      tick: function(time, deltaTime) {
+        var that = this;
+        if (!this.syncSetup && this.syncSystem.connection != undefined && this.el.components.sync.ownerId != undefined) {
+          this.syncSetup = true;
+
+          that.syncSystem.connection.instance.child('scene').child(that.el.components.sync.key).child('data').child('quaternion').on('value', function(data){
+            that.el.object3D.quaternion.set(data.val().x, data.val().y, data.val().z, data.val().w);
+          });
+
+          console.log('ownerId: ' + that.el.components.sync.ownerId);
+          console.log('clientId: ' + that.syncSystem.clientId);
+          console.log('object: ' + that.el.components.sync.key.split('_')[0]);
+          console.log('part: ' + that.el.components.sync.key.split('_')[1]);
+          console.log('space: ' + that.el.components.sync.key.split('_')[2]);
+
+          altspace.getSpace().then(function(space){
+            if (space.sid == that.el.components.sync.key.split('_')[2]) {
+              if (that.el.components.sync.ownerId != that.syncSystem.clientId) {
+                console.log('In same space. Delete object.');
+                that.el.parentEl.removeChild(that.el);
+              }
+            } else {
+              var container = document.createElement('a-entity');
+              container.setAttribute('rotation', '0 180 0');
+              that.el.appendChild(container);
+
+              var item = document.createElement('a-entity');
+              item.setAttribute('mixin', that.el.components.sync.key.split('_')[0]);
+              container.appendChild(item);
+            }
+          });
+        } else if (this.el.components.sync.ownerId == this.syncSystem.clientId) {
+          altspace.getThreeJSTrackingSkeleton().then(function(skel){
+            var part = skel.getJoint(that.el.components.sync.key.split('_')[1]);
+            that.el.setAttribute('position', part.position);
+            that.syncSystem.connection.instance.child('scene').child(that.el.components.sync.key).child('data').child('quaternion').set({x: part.quaternion.x, y: part.quaternion.y, z: part.quaternion.z, w: part.quaternion.w});
+          });
+        }
+      }
+    });
+  </script>
 </head>
 <body>
   <a-scene altspace='fullspace: true' sync-system='author: BenG; app: TheRooftop; refUrl: https://altvr-apps.firebaseio.com/; instance: rooftop'>
@@ -47,10 +97,14 @@
 
       <a-entity id='model' n-mesh-collider='type: environment; convex: false'></a-entity>
 
-      <a-mixin id='tie' position='0 .26 -.15' rotation='0 180 0' scale='.35 .35 .35' obj-model='obj: models/tie.obj; mtl: models/tie.mtl' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
-      <a-mixin id='flower1' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower1.obj; mtl: models/flower.mtl' collapse-model n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
-      <a-mixin id='flower2' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower2.obj; mtl: models/flower.mtl' collapse-model n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
-      <a-mixin id='guitar' position='.3 -.13 .3' rotation='0 180 -65' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
+      <a-mixin id='attachToHead' collapse-model n-skeleton-parent='part: head' sync sync-n-skeleton-parent></a-mixin>
+      <a-mixin id='attachToSpine' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
+
+      <a-mixin id='tie' position='0 .26 -.15' rotation='0 180 0' scale='.35 .35 .35' obj-model='obj: models/tie.obj; mtl: models/tie.mtl'></a-mixin>
+      <a-mixin id='flower1' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower1.obj; mtl: models/flower.mtl'></a-mixin>
+      <a-mixin id='flower2' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower2.obj; mtl: models/flower.mtl'></a-mixin>
+      <a-mixin id='guitar' position='.3 -.13 .3' rotation='0 180 -65' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl'></a-mixin>
+      <a-mixin id='synced-attachment' synced-attachment sync sync-transform></a-mixin>
 
       <!-- <a-entity position='0 1 0' rotation='0 0 0' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl'></a-entity> -->
 
@@ -189,14 +243,11 @@
         <a-entity position='-1.3 0 0'>
           <a-box position='0 0 0' scale='.4 .6 .05' color='#111'></a-box>
           <a-entity position='0 .25 .026' scale='.04 .04 1' n-text='text: Intro/Outro'></a-entity>
-          <a-box id='introCopy' position='-.05 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Intro' n-box-collider='type:hologram'></a-box>
-          <a-box id='outroCopy' position='.05 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Outro' n-box-collider='type:hologram'></a-box>
-          <a-cylinder id='introPlay' position='-.07 .1 .026' rotation='0 90 90' scale='.017 .017 .017' segments-radial='3' color='green' n-box-collider='type:hologram'></a-cylinder>
-          <a-box id='introStop' position='-.03 .1 .026' scale='.025 .025 .02' color='red' n-box-collider='type:hologram'></a-box>
-
-          <a-entity position='0 0 .026' scale='.04 .04 1' n-text='text: Lights'></a-entity>
-          <a-box id='lightTest' position='-.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Start' n-box-collider='type:hologram'></a-box>
-          <a-box id='stopTest' position='.05 -.1 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Stop' n-box-collider='type:hologram'></a-box>
+          <a-box id='introCopy' position='-.1 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Intro' n-box-collider='type:hologram'></a-box>
+          <a-box id='outroCopy' position='0 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Outro' n-box-collider='type:hologram'></a-box>
+          <a-cylinder id='introPlay' position='-.12 .1 .026' rotation='0 90 90' scale='.017 .017 .017' segments-radial='3' color='green' n-box-collider='type:hologram'></a-cylinder>
+          <a-box id='introStop' position='-.08 .1 .026' scale='.025 .025 .02' color='red' n-box-collider='type:hologram'></a-box>
+          <a-box id='lightTest' position='.1 .19 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Lights' n-box-collider='type:hologram'></a-box>
         </a-entity>
 
         <a-entity position='1.3 0 0'>
@@ -212,7 +263,7 @@
 
           <a-box id='buildingTRT' position='0 -.08 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:T R T' n-box-collider='type:hologram'></a-box>
 
-          <a-box id='floorButton' position='-.13 -.21 .026' scale='.035 .035 .02' color='green' n-text='fontSize: 6; verticalAlign: bottom; height: 4.2; text:Audience\nLock' n-box-collider='type:hologram'></a-box>
+          <a-box id='floorButton' position='-.13 -.21 .026' scale='.035 .035 .02' color='green' n-text='fontSize: 6; verticalAlign: bottom; height: 4.2; text:Audience\nLocked' n-box-collider='type:hologram'></a-box>
         </a-entity>
       </a-entity>
 
@@ -223,7 +274,7 @@
         <a-box id='vipButton' position='10.7 1.15 -17' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To VIP Seating' n-box-collider></a-box>
         <a-box id='leftStageButton' position='-8 1.6 -9.02' rotation='0 213 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
         <a-box id='rightStageButton' position='8 1.6 -9.02' rotation='0 147 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
-        <a-box id='guitarButton' position='8 1.3 -9.02' rotation='0 147 0' scale='.1 .1 .05' color='blue' instantiator='on: click; mixin: guitar' n-text='verticalAlign: top; height: 2; fontSize: 3; text: Guitar' n-box-collider></a-box>
+        <a-box id='guitarButton' position='8 1.3 -9.02' rotation='0 147 0' scale='.1 .1 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: Guitar' n-box-collider></a-box>
 
         <a-entity position='0 2.5 -11.31' rotation='0 180 0' n-text='fontSize: 2; width: 4; text: <align=left><-- Performer Stage & Stage Left\n\n<align=right>News Stage & Stage Right -->'></a-entity>
 
@@ -578,11 +629,13 @@
     
     Promise.all([
       altspace.getUser(),
-      altspace.getThreeJSTrackingSkeleton()
+      altspace.getThreeJSTrackingSkeleton(),
+      altspace.getSpace()
     ]).then(function(results){
       // console.log(results);
       var user = results[0];
       var skel = results[1];
+      var space = results[2];
 
       //sync.app.child('userIds').child(user.displayName).set(user);
 
@@ -738,6 +791,19 @@
         });
         rightStageButton.addEventListener('mouseup', function(){
           quickTeleportTo('rightStageTarget');
+        });
+
+        var hasGuitar = false;
+        guitarButton.addEventListener('mouseup', function(){
+          if (!hasGuitar) {
+            scene.systems['sync-system'].instantiate('guitar attachToSpine', scene, scene, 'guitar', user.userId);
+            scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_', user.userId);
+            hasGuitar = true;
+          } else {
+            scene.systems['sync-system'].removeLast('guitar', user.userId);
+            scene.systems['sync-system'].removeLast('guitar_Spine_' + space.sid + '_', user.userId);
+            hasGuitar = false;
+          }
         });
 
         controlBox.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
@@ -1051,33 +1117,33 @@
         
         var animating = false;
         lightTest.addEventListener('mouseup', function(){
-          animating = true;
-          sync.instance.child('lightPos').set({light1:'intro',light2:'intro',light3:'intro',light4:'intro'});
-          sync.instance.child('light1State').set(true);
-          sync.instance.child('light2State').set(true);
-          sync.instance.child('light3State').set(true);
-          sync.instance.child('light4State').set(true);
-          introTest1();
-          setTimeout(function(){
-            if (animating) {
-              introTest2();
-            }
-          }, 250);
-          setTimeout(function(){
-            if (animating) {
-              introTest3();
-            }
-          }, 500);
-          setTimeout(function(){
-            if (animating) {
-              introTest4();
-            }
-          }, 750);
-        });
-
-        stopTest.addEventListener('mouseup', function(){
-          animating = false;
-          sync.instance.child('lightPos').set({light1:'left',light2:'center',light3:'center',light4:'right'});
+          if (!introRunning) {
+            animating = true;
+            sync.instance.child('lightPos').set({light1:'intro',light2:'intro',light3:'intro',light4:'intro'});
+            sync.instance.child('light1State').set(true);
+            sync.instance.child('light2State').set(true);
+            sync.instance.child('light3State').set(true);
+            sync.instance.child('light4State').set(true);
+            introTest1();
+            setTimeout(function(){
+              if (animating) {
+                introTest2();
+              }
+            }, 250);
+            setTimeout(function(){
+              if (animating) {
+                introTest3();
+              }
+            }, 500);
+            setTimeout(function(){
+              if (animating) {
+                introTest4();
+              }
+            }, 750);
+          } else {
+            animating = false;
+            sync.instance.child('lightPos').set({light1:'left',light2:'center',light3:'center',light4:'right'});
+          }
         });
       
         function introTest1() {
@@ -1163,7 +1229,7 @@
         if (data.val() != null) {
           Object.keys(data.val()).forEach(function(p){
             if (peopleList.indexOf(p) == -1) {
-              console.log(data.val()[p].role + ': ' + data.val()[p].name + ' - ' + data.val()[p].spawn);
+              console.log(data.val()[p].name + ': ' + data.val()[p].role + ' - ' + data.val()[p].spawn);
               peopleList.push(p);
               if (data.val()[p].role == 'host' || data.val()[p].role == 'guest') {
                 addLightButton(data.val()[p]);
@@ -1188,20 +1254,26 @@
                 if (data.val()[p].role == 'producer' || data.val()[p].role == 'host') {
                   setupProducerFeatures();
                   setupCockpitTeleporters();
+                } else if (data.val()[p].role == 'mod') { 
+                  setupCockpitTeleporters();
                 } else if (data.val()[p].role == 'camera') {
                   model.setAttribute('position', '0 -1 0');
                 }
                 // quickTeleportTo(spawnPoint);
 
                 if (data.val()[p].extras.includes('tie')) {
-                  scene.systems['sync-system'].instantiate('tie', scene);
+                  scene.systems['sync-system'].instantiate('tie attachToSpine', scene);
+                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'tie_Spine_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('flower')) {
-                  scene.systems['sync-system'].instantiate('flower1', scene);
-                  scene.systems['sync-system'].instantiate('flower2', scene);
+                  scene.systems['sync-system'].instantiate('flower1 attachToHead', scene);
+                  scene.systems['sync-system'].instantiate('flower2 attachToHead', scene);
+                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower1_Head_' + space.sid + '_');
+                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower2_Head_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('guitar')) {
-                  scene.systems['sync-system'].instantiate('guitar', scene);
+                  scene.systems['sync-system'].instantiate('guitar attachToSpine', scene);
+                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('xray')) {
                   xrayEyes = true;
@@ -1244,11 +1316,13 @@
           floorEnabled = data.val();
           if (floorEnabled) {
             floorButton.setAttribute('color', 'red');
+            floorButton.setAttribute('n-text', 'text', 'Audience\nUnlocked');
             if (!onGuestList) {
               loadCollision();
             }
           } else {
             floorButton.setAttribute('color', 'green');
+            floorButton.setAttribute('n-text', 'text', 'Audience\nLocked');
             if (!onGuestList) {
               model.setAttribute('position', '0 1000 0');
             }
@@ -1312,6 +1386,7 @@
           }
         });
       }
+
       var curList = [leftCur1,leftCur2,leftCur3,leftCur4,leftCur5,leftCur6,leftCur7,leftCur8,leftCur9,leftCur10, rightCur1,rightCur2,rightCur3,rightCur4,rightCur5,rightCur6,rightCur7,rightCur8,rightCur9,rightCur10];
       
       function teleportTo(target) {
@@ -1453,6 +1528,7 @@
       
       var lightPos;
       var lightPosToSet = {light1:'left', light2:'center', light3:'center', light4:'right'};
+      var introRunning = false;
       sync.instance.child('lightPos').on('value', function(data){
         if (data.val() != null) {
           clearIndicatorLights();
@@ -1460,7 +1536,11 @@
           lightPos = data.val();
           if (lightPos.light1 == 'intro') {
             light1Cone.setAttribute('opacity', '0.2');
+            lightTest.setAttribute('color', 'green');
+            introRunning = true;
           } else {
+            lightTest.setAttribute('color', 'red');
+            introRunning = false;
             light1Cone.setAttribute('opacity', '0.1');
             if (lightPos.light1 == 'center') {
               centerStageLight1Indicator.setAttribute('color', '#0f0');
