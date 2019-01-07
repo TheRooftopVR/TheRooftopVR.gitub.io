@@ -797,11 +797,11 @@
         guitarButton.addEventListener('mouseup', function(){
           if (!hasGuitar) {
             scene.systems['sync-system'].instantiate('guitar attachToSpine', scene, scene, 'guitar', user.userId);
-            scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_', user.userId);
+            //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_', user.userId);
             hasGuitar = true;
           } else {
             scene.systems['sync-system'].removeLast('guitar', user.userId);
-            scene.systems['sync-system'].removeLast('guitar_Spine_' + space.sid + '_', user.userId);
+            //scene.systems['sync-system'].removeLast('guitar_Spine_' + space.sid + '_', user.userId);
             hasGuitar = false;
           }
         });
@@ -1263,17 +1263,17 @@
 
                 if (data.val()[p].extras.includes('tie')) {
                   scene.systems['sync-system'].instantiate('tie attachToSpine', scene);
-                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'tie_Spine_' + space.sid + '_');
+                  //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'tie_Spine_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('flower')) {
                   scene.systems['sync-system'].instantiate('flower1 attachToHead', scene);
                   scene.systems['sync-system'].instantiate('flower2 attachToHead', scene);
-                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower1_Head_' + space.sid + '_');
-                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower2_Head_' + space.sid + '_');
+                  //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower1_Head_' + space.sid + '_');
+                  //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'flower2_Head_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('guitar')) {
                   scene.systems['sync-system'].instantiate('guitar attachToSpine', scene);
-                  scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_');
+                  //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_');
                 }
                 if (data.val()[p].extras.includes('xray')) {
                   xrayEyes = true;
