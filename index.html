@@ -276,7 +276,7 @@
         <a-box id='vipButton' position='10.7 1.15 -17' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To VIP Seating' n-box-collider></a-box>
         <a-box id='leftStageButton' position='-8 1.6 -9.02' rotation='0 213 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
         <a-box id='rightStageButton' position='8 1.6 -9.02' rotation='0 147 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Stage' n-box-collider></a-box>
-        <a-box id='guitarButton' position='8 1.3 -9.02' rotation='0 147 0' scale='.1 .1 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: Guitar' n-box-collider></a-box>
+        <a-box id='guitarButton' position='8 1.3 -9.02' rotation='0 147 0' scale='.1 .1 .05' color='blue' instantiator='on: click; mixin: guitar attachToSpine' n-text='verticalAlign: top; height: 2; fontSize: 3; text: Guitar' n-box-collider></a-box>
 
         <a-entity position='0 2.5 -11.31' rotation='0 180 0' n-text='fontSize: 2; width: 4; text: <align=left><-- Performer Stage & Stage Left\n\n<align=right>News Stage & Stage Right -->'></a-entity>
 
@@ -795,18 +795,18 @@
           quickTeleportTo('rightStageTarget');
         });
 
-        var hasGuitar = false;
-        guitarButton.addEventListener('mouseup', function(){
-          if (!hasGuitar) {
-            scene.systems['sync-system'].instantiate('guitar attachToSpine', scene, scene, 'guitar', user.userId);
-            //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_', user.userId);
-            hasGuitar = true;
-          } else {
-            scene.systems['sync-system'].removeLast('guitar', user.userId);
-            //scene.systems['sync-system'].removeLast('guitar_Spine_' + space.sid + '_', user.userId);
-            hasGuitar = false;
-          }
-        });
+        // var hasGuitar = false;
+        // guitarButton.addEventListener('mouseup', function(){
+        //   if (!hasGuitar) {
+        //     scene.systems['sync-system'].instantiate('guitar attachToSpine', scene, scene, 'guitar', user.userId);
+        //     //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_', user.userId);
+        //     hasGuitar = true;
+        //   } else {
+        //     scene.systems['sync-system'].removeLast('guitar', user.userId);
+        //     //scene.systems['sync-system'].removeLast('guitar_Spine_' + space.sid + '_', user.userId);
+        //     hasGuitar = false;
+        //   }
+        // });
 
         controlBox.object3D.addBehavior(new altspace.utilities.behaviors.JointCollisionEvents({
           joints: [['Head','Center',0]],
