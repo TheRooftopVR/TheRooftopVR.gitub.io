@@ -101,6 +101,8 @@
       <a-mixin id='attachToSpine' collapse-model n-skeleton-parent='part: spine' sync sync-n-skeleton-parent></a-mixin>
 
       <a-mixin id='tie' position='0 .26 -.15' rotation='0 180 0' scale='.35 .35 .35' obj-model='obj: models/tie.obj; mtl: models/tie.mtl'></a-mixin>
+      <a-mixin id='rainbow' position='0 .38 -.115' rotation='0 180 0' scale='.775 .775 .775' obj-model='obj: models/BowTie.obj; mtl: models/BowTie.mtl'></a-mixin>
+      <a-mixin id='roehat' position='.047 .016 .1' rotation='0 180 0' scale='2 2 2' obj-model='obj: models/hat.obj; mtl: models/hat.mtl'></a-mixin>
       <a-mixin id='flower1' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower1.obj; mtl: models/flower.mtl'></a-mixin>
       <a-mixin id='flower2' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower2.obj; mtl: models/flower.mtl'></a-mixin>
       <a-mixin id='guitar' position='.3 -.13 .3' rotation='0 180 -65' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl'></a-mixin>
@@ -1264,6 +1266,12 @@
                 if (data.val()[p].extras.includes('tie')) {
                   scene.systems['sync-system'].instantiate('tie attachToSpine', scene);
                   //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'tie_Spine_' + space.sid + '_');
+                }
+                if (data.val()[p].extras.includes('rainbow')) {
+                  scene.systems['sync-system'].instantiate('rainbow attachToSpine', scene);
+                }
+                if (data.val()[p].extras.includes('roehat')) {
+                  scene.systems['sync-system'].instantiate('roehat attachToHead', scene);
                 }
                 if (data.val()[p].extras.includes('flower')) {
                   scene.systems['sync-system'].instantiate('flower1 attachToHead', scene);
