@@ -128,6 +128,7 @@
         <a-entity id='logoScreen3' position='0 0 -.01'>
           <a-plane position='0 0 0' scale='1.7777 1 1' color='#111111'></a-plane>
           <a-plane position='0 0 .005' scale='.95 .95 1' src='models/textures/logo.jpg'></a-plane>
+          <a-plane id='roeScreen' position='0 0 -.01' scale='1.7777 1 1' src='roe.jpg'></a-plane>
         </a-entity>
       </a-entity>
 
@@ -183,8 +184,9 @@
           <a-box id='openButton' position='-.05 0 .026' scale='.05 .05 .02' color='green' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Open' n-box-collider='type:hologram'></a-box>
           <a-box id='closeButton' position='.05 0 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Close' n-box-collider='type:hologram'></a-box>
 
-          <a-box id='screenToggle' position='-.05 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Screen' n-box-collider='type:hologram'></a-box>
-          <a-box id='micToggle' position='.05 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Mic' n-box-collider='type:hologram'></a-box>          
+          <a-box id='screenToggle' position='-.1 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Screen' n-box-collider='type:hologram'></a-box>
+          <a-box id='micToggle' position='0 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Mic' n-box-collider='type:hologram'></a-box>
+          <a-box id='roeToggle' position='.1 -.15 .026' scale='.05 .05 .02' color='red' n-text='fontSize: 6; verticalAlign: bottom; height: 3; text:Roe' n-box-collider='type:hologram'></a-box>
         </a-entity>
 
         <a-entity id='lightControlPanel' position='0 0 0'>
@@ -957,6 +959,9 @@
             }
           }
         });
+        roeToggle.addEventListener('mouseup', function(){
+          sync.instance.child('roeScreen').set(!roeScreenHidden);
+        });
 
         //light panel 2
 
@@ -1353,6 +1358,22 @@
           }
         } else {
           sync.instance.child('screenHidden').set(true);
+        }
+      });
+
+      var roeScreenHidden = false;
+      sync.instance.child('roeScreen').on('value', function(data){
+        if (data.val() != null) {
+          roeScreenHidden = data.val();
+          if (roeScreenHidden) {
+            roeScreen.setAttribute('position', '0 0 -.01');
+            roeToggle.setAttribute('color', 'red');
+          } else {
+            roeScreen.setAttribute('position', '0 0 .01');
+            roeToggle.setAttribute('color', 'green');
+          }
+        } else {
+          sync.instance.child('roeScreen').set(false);
         }
       });
 
