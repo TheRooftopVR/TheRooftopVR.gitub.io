@@ -271,6 +271,8 @@
         </a-entity>
       </a-entity>
 
+      <a-box id='signUpButton' position='10.7 1.5 -15' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: Registration' n-box-collider></a-box>
+
       <a-entity id='teleportButtons' position='0 -100 0'>
         <a-box id='backstageButton' position='2.95 3 8.75' rotation='0 -90 0' scale='.2 .2 .05' color='blue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Backstage' n-box-collider></a-box>
         <a-box id='backstageButton2' position='2.92 5 8.75' rotation='-30 -90 0' scale='.1 .1 .025' color='darkblue' n-text='verticalAlign: top; height: 2; fontSize: 3; text: To Backstage' n-box-collider></a-box>
@@ -640,6 +642,10 @@
       var user = results[0];
       var skel = results[1];
       var space = results[2];
+
+      signUpButton.addEventListener('mouseup', function(){
+      	altspace.open('https://docs.google.com/forms/d/e/1FAIpQLSf9B4bzGCm1IEyMxr4XeWDgJnSQs7wl0XhjN4B-JA7RmbeAkg/viewform?usp=pp_url&entry.2005620554=' + user.displayName)
+      });
 
       //sync.app.child('userIds').child(user.displayName).set(user);
 
