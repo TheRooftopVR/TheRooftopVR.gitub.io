@@ -1,0 +1,7 @@
+newmtl Gold
+Kd 1 1 1
+map_Kd textures/shield.png
+
+newmtl Silver
+Kd 1 1 1
+map_Kd textures/delta.png

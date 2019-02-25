@@ -106,6 +106,9 @@
       <a-mixin id='flower1' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower1.obj; mtl: models/flower.mtl'></a-mixin>
       <a-mixin id='flower2' position='-.12 .12 .05' rotation='0 0 65' scale='.055 .055 .055' obj-model='obj: models/flower2.obj; mtl: models/flower.mtl'></a-mixin>
       <a-mixin id='guitar' position='.3 -.13 .3' rotation='0 180 -65' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl'></a-mixin>
+      <a-mixin id='combadgeTransform' position='-.08 .32 -.095' rotation='0 180 0' scale='.03 .03 .03'></a-mixin>
+      <a-mixin id='combadge' obj-model='obj: models/combadge1.obj; mtl: models/combadge.mtl'></a-mixin>
+      <a-mixin id='combadge2' obj-model='obj: models/combadge2.obj; mtl: models/combadge.mtl'></a-mixin>
       <a-mixin id='synced-attachment' synced-attachment sync sync-transform></a-mixin>
 
       <!-- <a-entity position='0 1 0' rotation='0 0 0' scale='.3 .3 .3' obj-model='obj: models/guitar.obj; mtl: models/guitar.mtl'></a-entity> -->
@@ -1308,6 +1311,10 @@
                 if (data.val()[p].extras.includes('guitar')) {
                   scene.systems['sync-system'].instantiate('guitar attachToSpine', scene);
                   //scene.systems['sync-system'].instantiate('synced-attachment', scene, scene, 'guitar_Spine_' + space.sid + '_');
+                }
+                if (data.val()[p].extras.includes('combadge')) {
+                  scene.systems['sync-system'].instantiate('combadge combadgeTransform attachToSpine', scene);
+                  scene.systems['sync-system'].instantiate('combadge2 combadgeTransform attachToSpine', scene);
                 }
                 if (data.val()[p].extras.includes('xray')) {
                   xrayEyes = true;
