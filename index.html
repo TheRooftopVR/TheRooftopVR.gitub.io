@@ -565,7 +565,7 @@
     start()      
   });
 
-  sound1.setAttribute('n-sound', {src: 'sounds/laugh'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
+  sound1.setAttribute('n-sound', {src: 'sounds/applause'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
   sound2.setAttribute('n-sound', {src: 'sounds/laugh'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.2, spatialBlend: 0.5});
   sound3.setAttribute('n-sound', {src: 'sounds/yay'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.5, spatialBlend: 0.5});
   sound4.setAttribute('n-sound', {src: 'sounds/crickets'  + (/Mobile/i.test(navigator.userAgent) ? '.mp3' : '.ogg'), volume: 0.3, spatialBlend: 0.5});
@@ -882,10 +882,10 @@
       var lightsSelected = {light1:false, light2:false, light3:false, light4:false};
       function setupProducerFeatures() {
         isProducer = true;
-        // sound1Button.addEventListener('mouseup', function(){
-        //   sound1.components.sync.takeOwnership();
-        //   sound1.components['n-sound'].playSound();
-        // });
+        sound1Button.addEventListener('mouseup', function(){
+          sound1.components.sync.takeOwnership();
+          sound1.components['n-sound'].playSound();
+        });
         sound2Button.addEventListener('mouseup', function(){
           sound2.components.sync.takeOwnership();
           sound2.components['n-sound'].playSound();
